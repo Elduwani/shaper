@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import Rect from './components/Rect'
 
 function App() {
+  const [state, setState] = useState(0)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header>this is the header</header>
+      <section className="content-wrapper">
+        <div className="shape-wrapper">
+          <Rect />
+        </div>
+        <p style={{ color: "white" }}>Content area</p>
+      </section>
     </div>
   );
 }

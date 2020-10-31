@@ -1,0 +1,88 @@
+@import "./_variables.scss";
+
+@mixin flex {
+    
+}
+
+.control-wrapper{
+    display: grid;
+    grid-template-columns: repeat(2, 100px) 150px;
+    gap: 10px;
+
+    > div {
+        height: $height;
+        border: 1px solid red;
+
+        * {
+            color: white;
+        }
+    }
+
+    .label{
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        text-transform: capitalize;
+    }
+    
+    .input{
+        // background-color: green;
+        overflow: hidden;
+        border-radius: 8px;
+        display: flex;
+        padding-left: 8px;
+
+        input{
+            height: 100%;
+            width: 60%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white
+        }
+
+        .arrows{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            // border: 1px solid green;
+            
+            > div{
+                flex: 1;
+                display: grid;
+                place-items: center;
+                cursor: pointer;
+                
+                &:hover{
+                    background: blue;
+                }
+            }
+            svg{
+                stroke: white;
+            }
+        }
+    }
+
+    .slider{
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .bar{
+            height: 5px;
+            width: 100%;
+            border-radius: 100px;
+            background-color: #aaa;
+        }
+        .handle{
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            border: none;
+        }
+    }
+}
