@@ -1,24 +1,32 @@
-import { useState, useRef } from 'react'
-import { motion, useDragControls } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
+import { motion, useMotionValue, transform } from 'framer-motion'
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
 import '../css/controls.scss'
 
-export default function Control({ label, min, max, initial, state, setState }) {
-    const [value, setValue] = useState(initial ?? 10)
+export default function Control({ label, min, max, initial, cb }) {
+    const [value, setValue] = useState(min ?? 10)
     const constraintRef = useRef(null)
-    const dragControls = useDragControls()
+    const x = useMotionValue(0)
 
-    const startDrag = (e) => {
-        console.log(e)
-        dragControls.start(e, { snapToCursor: false })
-    }
+    // function handleChange(e) {
+    //     const val = e.target.value
+    //     if (typeof val === "number" && val >= min && val <= max) {
+    //         setValue(val)
+    //     }
+    // }
 
-    function handleChange(e) {
-        const val = e.target.value
-        if (typeof val === "number" && val >= min && val <= max) {
+    useEffect(() => {
+        const input = [0, 116]
+        const output = [min ?? 0, max]
+
+        x.onChange(latest => {
+            // console.log(latest)
+            const mapped = transform(latest, input, output)
+            const val = ~~mapped
             setValue(val)
-        }
-    }
+            cb(st => ({ ...st, [label]: val }))
+        })
+    }, [x])
 
     return (
         <div className="control-wrapper">
@@ -26,27 +34,22 @@ export default function Control({ label, min, max, initial, state, setState }) {
             <div className="input">
                 <input
                     maxLength={3}
-                    onChange={handleChange}
                     value={value}
                 />
-                <div className="arrows">
+                {/* <div className="arrows">
                     <div><FiChevronUp /></div>
                     <div><FiChevronDown /></div>
-                </div>
+                </div> */}
             </div>
-            <div className="slider" onPointerDown={(e) => console.log(e.pageX)}>
-                <div
-                    className="bar"
-                    onPointerDown={startDrag}
-                    ref={constraintRef}
-                ></div>
+            <div className="slider">
+                <div className="bar" ref={constraintRef}></div>
                 <motion.div
-                    className="handle"
                     drag="x"
                     dragElastic={0}
                     dragConstraints={constraintRef}
-                    dragControls={dragControls}
-                // dragMomentum={false}
+                    dragMomentum={false}
+                    style={{ x }}
+                    className="handle"
                 />
             </div>
         </div>

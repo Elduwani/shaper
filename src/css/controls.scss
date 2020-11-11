@@ -1,4 +1,4 @@
-@import "./_variables.scss";
+@import "./variables";
 
 @mixin flex {
     
@@ -6,12 +6,12 @@
 
 .control-wrapper{
     display: grid;
-    grid-template-columns: repeat(2, 100px) 150px;
+    grid-template-columns: 60px 80px 1fr;
     gap: 10px;
 
     > div {
         height: $height;
-        border: 1px solid red;
+        // border: 1px solid red;
 
         * {
             color: white;
@@ -31,6 +31,7 @@
         overflow: hidden;
         border-radius: 8px;
         display: flex;
+        border: 1px solid $clr-gray-4;
         padding-left: 8px;
 
         input{
@@ -59,7 +60,7 @@
                 }
             }
             svg{
-                stroke: white;
+                stroke: $clr-gray-4;
             }
         }
     }
@@ -76,10 +77,10 @@
             background-color: #aaa;
         }
         .handle{
-            left: 20px;
             width: 20px;
             height: 20px;
             position: absolute;
+            left: 0;
             background-color: white;
             border-radius: 50%;
             border: none;

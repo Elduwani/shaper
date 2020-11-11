@@ -1,3 +1,5 @@
+@import "./css/variables";
+
 *{
   margin: 0;
   padding: 0;
@@ -15,4 +17,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
+    
+.App{
+    padding: $space-3;
+
+    .toolbar-wrapper{
+      width: 450px;
+      height: 60px;
+      background-color: #aaa;
+      border-radius: 16px;
+      margin-bottom: $space-5;
+    }
+
+    .content-wrapper{
+      display: grid;
+      grid-template-columns: repeat(3, 350px);
+      gap: $space-1;
+
+      .shape-wrapper{
+        background-color: #333;
+        @include radius();
+        padding: $space-2;
+
+        .svg-container{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: $space-2;
+          // background-color: green;
+
+          svg{
+
+          }
+        }
+      }
+    }
+  }
