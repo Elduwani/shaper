@@ -24,33 +24,86 @@ body {
     padding: $space-3;
 
     .toolbar-wrapper{
-      width: 450px;
-      height: 60px;
-      background-color: #aaa;
-      border-radius: 16px;
+      display: grid;
+      place-items: center;
       margin-bottom: $space-5;
+      // background-color: green;
+      
+      .toolbar{
+        $icon-size: 60px;
+
+        width: 400px;
+        height: calc(#{$icon-size} + 40px);
+        background-color: $clr-gray-3;
+        border-radius: 16px;
+        gap: $space-4;
+        display: grid;
+        grid-template-columns: repeat(4, $icon-size);
+        align-items: center;
+        justify-content: center;
+
+        .icon{
+          width: $icon-size;
+          height: $icon-size;
+          border: 2px solid $clr-gray-4;
+          cursor: pointer;
+          
+          &.rect{
+            @include radius;
+          }
+          
+          &.circle{
+            @include radius(100px);
+          }
+          
+          &.line{
+            border: none;
+            display: grid;
+            place-items: center;
+
+            div{
+              width: 2px;
+              height: 135%;
+              background-color: $clr-gray-4;
+              transform: rotate(45deg);
+            }
+          }
+          
+          &.triangle{
+            border: none;
+            // background:none;
+          }
+        }
+
+        svg {
+          polygon, path{
+            fill: none;
+            stroke: $clr-gray-4;
+            stroke-width: 2px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+          }
+        } 
+      }
     }
 
     .content-wrapper{
       display: grid;
+      justify-content: center;
       grid-template-columns: repeat(3, 350px);
       gap: $space-1;
 
       .shape-wrapper{
-        background-color: #333;
+        background-color: $clr-gray-3;
         @include radius();
-        padding: $space-2;
+        overflow: hidden;
 
         .svg-container{
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: $space-2;
-          // background-color: green;
-
-          svg{
-
-          }
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
+          // background-color: $clr-gray-2;
+          overflow: hidden;
         }
       }
     }

@@ -1,11 +1,12 @@
-import { useState } from "react"
+import Toolbar from './components/Toolbar';
 import Rect from './components/Rect'
 
 function App() {
   return (
     <div className="App">
-      <section className="toolbar-wrapper"></section>
+      <Toolbar />
       <section className="content-wrapper">
+        <Rect />
         <Rect />
       </section>
     </div>

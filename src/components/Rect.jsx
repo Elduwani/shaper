@@ -10,8 +10,8 @@ function Rect() {
         height: 100,
         strokeWidth: 3,
         stroke: "red",
-        radius: 5,
-        fill: "none",
+        fill: "white",
+        radius: 10,
         rotate: 0,
     })
 
@@ -21,41 +21,40 @@ function Rect() {
         <div className="shape-wrapper">
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
-                    <rect
-                        width={width}
-                        height={height}
-                        strokeWidth={strokeWidth}
-                        stroke={stroke}
-                        rotate={rotate}
-                        rx={radius}
-                        fill={fill}
-                        x={5} y={5}
+                    <motion.rect
+                        initial={{ width, height, strokeWidth, stroke, rx: radius }}
+                        animate={{ width, height, strokeWidth, stroke, rotate, rx: radius }}
+                        fill={fill} x={strokeWidth} y={strokeWidth}
+                        dragConstraints={containerRef}
+                        drag
                     />
                 </Svg>
             </div>
-            <Control
-                label="width"
-                min={50}
-                max={300}
-                initial={100}
-                cb={setState}
-            />
-            <Control
-                label="height"
-                min={20}
-                max={250}
-                cb={setState}
-            />
-            <Control
-                label="rotate"
-                max={359}
-                cb={setState}
-            />
-            <Control
-                label="radius"
-                max={50}
-                cb={setState}
-            />
+            <div className="controls">
+                <Control
+                    label="width"
+                    min={50}
+                    max={300}
+                    initial={100}
+                    cb={setState}
+                />
+                <Control
+                    label="height"
+                    min={20}
+                    max={250}
+                    cb={setState}
+                />
+                <Control
+                    label="rotate"
+                    max={359}
+                    cb={setState}
+                />
+                <Control
+                    label="radius"
+                    max={30}
+                    cb={setState}
+                />
+            </div>
         </div>
     );
 }

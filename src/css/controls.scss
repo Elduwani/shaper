@@ -3,87 +3,91 @@
 @mixin flex {
     
 }
+.controls{
+    padding: $space-2;
 
-.control-wrapper{
-    display: grid;
-    grid-template-columns: 60px 80px 1fr;
-    gap: 10px;
-
-    > div {
-        height: $height;
-        // border: 1px solid red;
-
-        * {
-            color: white;
-        }
-    }
-
-    .label{
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        text-transform: capitalize;
-    }
+    .control-wrapper{
+        display: grid;
+        margin: $space-1 0;
+        grid-template-columns: 60px 80px 1fr;
+        gap: 10px;
     
-    .input{
-        // background-color: green;
-        overflow: hidden;
-        border-radius: 8px;
-        display: flex;
-        border: 1px solid $clr-gray-4;
-        padding-left: 8px;
-
-        input{
-            height: 100%;
-            width: 60%;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white
+        > div {
+            height: $height;
+            // border: 1px solid red;
+    
+            * {
+                color: white;
+            }
         }
-
-        .arrows{
-            flex: 1;
+    
+        .label{
+            color: white;
             display: flex;
-            flex-direction: column;
-            // border: 1px solid green;
-            
-            > div{
+            align-items: center;
+            justify-content: flex-end;
+            text-transform: capitalize;
+        }
+        
+        .input{
+            // background-color: green;
+            overflow: hidden;
+            border-radius: 8px;
+            display: flex;
+            border: 1px solid $clr-gray-4;
+            padding-left: 8px;
+    
+            input{
+                height: 100%;
+                width: 60%;
+                background: transparent;
+                border: none;
+                outline: none;
+                color: white
+            }
+    
+            .arrows{
                 flex: 1;
-                display: grid;
-                place-items: center;
-                cursor: pointer;
+                display: flex;
+                flex-direction: column;
+                // border: 1px solid green;
                 
-                &:hover{
-                    background: blue;
+                > div{
+                    flex: 1;
+                    display: grid;
+                    place-items: center;
+                    cursor: pointer;
+                    
+                    &:hover{
+                        background: blue;
+                    }
+                }
+                svg{
+                    stroke: $clr-gray-4;
                 }
             }
-            svg{
-                stroke: $clr-gray-4;
+        }
+    
+        .slider{
+            display: flex;
+            align-items: center;
+            position: relative;
+    
+            .bar{
+                height: 5px;
+                width: 100%;
+                border-radius: 100px;
+                background-color: #aaa;
             }
-        }
-    }
-
-    .slider{
-        display: flex;
-        align-items: center;
-        position: relative;
-
-        .bar{
-            height: 5px;
-            width: 100%;
-            border-radius: 100px;
-            background-color: #aaa;
-        }
-        .handle{
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            left: 0;
-            background-color: white;
-            border-radius: 50%;
-            border: none;
+            .handle{
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                left: 0;
+                background-color: white;
+                border-radius: 50%;
+                border: none;
+            }
         }
     }
 }

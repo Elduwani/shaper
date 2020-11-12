@@ -3,21 +3,21 @@ import { motion, useMotionValue, transform } from 'framer-motion'
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
 import '../css/controls.scss'
 
-export default function Control({ label, min, max, initial, cb }) {
-    const [value, setValue] = useState(min ?? 10)
+export default function Control({ label, min = 0, max = 100, initial, cb }) {
+    const [value, setValue] = useState(min)
     const constraintRef = useRef(null)
     const x = useMotionValue(0)
 
-    // function handleChange(e) {
-    //     const val = e.target.value
-    //     if (typeof val === "number" && val >= min && val <= max) {
-    //         setValue(val)
-    //     }
-    // }
+    function handleChange(e) {
+        const val = e.target.value
+        if (typeof val === "number" && val >= min && val <= max) {
+            setValue(val)
+        }
+    }
 
     useEffect(() => {
         const input = [0, 116]
-        const output = [min ?? 0, max]
+        const output = [min, max]
 
         x.onChange(latest => {
             // console.log(latest)
@@ -35,6 +35,7 @@ export default function Control({ label, min, max, initial, cb }) {
                 <input
                     maxLength={3}
                     value={value}
+                    onChange={handleChange}
                 />
                 {/* <div className="arrows">
                     <div><FiChevronUp /></div>
