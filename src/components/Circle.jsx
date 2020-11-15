@@ -6,9 +6,11 @@ import { CONSTANTS } from "../utils"
 
 export default function Rect() {
     const containerRef = useRef()
+    const minRadius = 50
+    const maxRadius = 100
     const [state, setState] = useState({
-        radius: 50,
-        endAngle: 45,
+        radius: minRadius,
+        endAngle: 250,
         fill: "blue",
         stroke: "cyan",
         strokeWidth: 6,
@@ -20,41 +22,48 @@ export default function Rect() {
         centerX = containerWidth / 2,
         centerY = containerHeight / 2;
 
-    const d = describeArc({ x: centerX, y: centerY, radius, startAngle: 0, endAngle })
+    const d = describeArc({
+        x: strokeWidth + centerX + 10,
+        y: strokeWidth + centerY + 10,
+        radius,
+        startAngle: 0,
+        endAngle,
+    })
     // console.log(d)
 
     return (
         <div className="shape-wrapper">
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
-                    <motion.g
-                        animate={{ rotate }}
-                        dragConstraints={containerRef}
-                        transformOrigin="center center"
-                        dragElastic={false}
-                        drag
-                    >
-                        <circle
+                    <g>
+                        <motion.circle
                             cx={centerX}
                             cy={centerY}
                             r={radius}
                             fill={fill}
+                            dragConstraints={containerRef}
+                            // dragElastic={false}
+                            drag
                         />
-                        <path
+                        <motion.path
                             d={d}
-                            fill="none"
+                            fill="transparent"
                             stroke={stroke}
                             strokeWidth={strokeWidth}
                             strokeLinecap="round"
+                            dragConstraints={containerRef}
+                            // dragElastic={false}
+                            drag
                         />
-                    </motion.g>
+                    </g>
                 </Svg>
             </div>
             <div className="controls">
                 <Control
-                    label="radius"
+                    name="radius"
+                    label="scale"
                     min={radius}
-                    max={100}
+                    max={maxRadius}
                     cb={setState}
                 />
                 <Control

@@ -7,9 +7,8 @@ function SvgViewbox({ children, containerRef }) {
         if (containerRef) {
             //Set width of viewBox to the parent element's full width
             const compStyles = window.getComputedStyle(containerRef.current);
+            const width = Number(compStyles.getPropertyValue('width').replace(/[^\d]/g, ''))
             // eslint-disable-next-line
-            const width = Number(compStyles.getPropertyValue('width').replace(/[^\d\.\-]/g, ''))
-            // const height = Number(compStyles.getPropertyValue('height').replace(/[^\d\.\-]/g, ''))
             setViewbox(v => ({ ...v, width }))
         }
     }, [])

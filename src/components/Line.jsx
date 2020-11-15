@@ -2,17 +2,17 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion"
 import Svg from "./SvgViewbox";
 import Control from "./Control";
-import { CONSTANTS } from "../utils"
+import { CONSTANTS, COLORS } from "../utils"
 
 function Rect() {
     const containerRef = useRef()
     const [state, setState] = useState({
-        copies: 2,
-        height: 100,
+        copies: 5,
+        height: 200,
         width: 3,
         fill: "cyan",
-        spacing: 10,
-        rotate: 0,
+        spacing: 20,
+        rotate: 25,
     })
 
     const { copies, height, width, fill, rotate, spacing } = state
@@ -28,15 +28,18 @@ function Rect() {
                         {
                             Array(copies).fill(true).map((_, i) => {
                                 const x = cx + (spacing * i) - (copies * spacing / 2)
+                                const randomIndex = Math.round(Math.random() * COLORS.length)
+                                const color = COLORS[i] ?? COLORS[randomIndex]
 
                                 return (
                                     <motion.rect
                                         key={i}
                                         x={x} y={cy}
                                         width={width}
+                                        fill={color}
                                         height={height}
                                         animate={{ rotate }}
-                                        transformOrigin="center center"
+                                        transformOrigin="center top"
                                     />
                                 )
                             })
@@ -49,24 +52,26 @@ function Rect() {
                     name="copies"
                     label="count"
                     min={copies}
-                    max={15}
-                    cb={setState}
-                />
-                <Control
-                    label="spacing"
-                    min={5}
-                    max={50}
+                    max={10}
                     cb={setState}
                 />
                 <Control
                     label="height"
                     min={height}
-                    max={250}
+                    max={450}
                     cb={setState}
                 />
                 <Control
-                    label="rotate"
-                    max={180}
+                    label="spacing"
+                    min={10}
+                    max={40}
+                    cb={setState}
+                />
+                <Control
+                    name="rotate"
+                    label="skew"
+                    min={15}
+                    max={30}
                     cb={setState}
                 />
             </div>

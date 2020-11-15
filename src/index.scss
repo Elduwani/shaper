@@ -99,12 +99,26 @@ body {
         overflow: hidden;
 
         .svg-container{
-          // display: flex;
-          // align-items: center;
-          // justify-content: center;
-          // background-color: $clr-gray-2;
           overflow: hidden;
         }
+        
+        .color-picker-wrapper{
+          ul {
+            display: flex;
+  
+            li {
+              flex: 1;
+              height: 20px;
+              cursor: pointer;
+              @include animation;
+
+              &:hover{
+                flex: 1.5;
+              }
+            }
+          }
+        }
       }
+
     }
   }
