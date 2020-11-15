@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useLayoutEffect } from 'react'
 import { motion, useMotionValue, transform } from 'framer-motion'
-import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
+// import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
 import '../css/controls.scss'
 
-export default function Control({ label, min = 0, max = 100, initial, cb }) {
+export default function Control({ name, label, min = 0, max = 100, cb }) {
     const [value, setValue] = useState(min)
     const constraintRef = useRef(null)
     const x = useMotionValue(0)
@@ -15,22 +15,24 @@ export default function Control({ label, min = 0, max = 100, initial, cb }) {
         }
     }
 
-    useEffect(() => {
-        const input = [0, 116]
+    useLayoutEffect(() => {
+        const input = [0, 138]
         const output = [min, max]
+
+        cb(st => ({ ...st, [name ?? label]: min }))
 
         x.onChange(latest => {
             // console.log(latest)
             const mapped = transform(latest, input, output)
             const val = ~~mapped
             setValue(val)
-            cb(st => ({ ...st, [label]: val }))
+            cb(st => ({ ...st, [name ?? label]: val }))
         })
-    }, [x])
+    }, [])
 
     return (
         <div className="control-wrapper">
-            <div className="label">{label}</div>
+            <div className="label">{label ?? name}</div>
             <div className="input">
                 <input
                     maxLength={3}

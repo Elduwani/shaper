@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 function SvgViewbox({ children, containerRef }) {
-    const [viewbox, setViewbox] = useState({ width: 100, height: 260 })
+    const [viewbox, setViewbox] = useState({ width: 100, height: 250 })
 
     useEffect(() => {
         if (containerRef) {

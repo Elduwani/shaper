@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion"
 import Svg from "./SvgViewbox";
 import Control from "./Control";
+import { CONSTANTS } from "../utils"
 
 function Rect() {
     const containerRef = useRef()
@@ -10,22 +11,41 @@ function Rect() {
         height: 100,
         strokeWidth: 3,
         stroke: "red",
-        fill: "white",
+        fill: "black",
         radius: 10,
         rotate: 0,
     })
 
     const { width, height, strokeWidth, stroke, radius, fill, rotate } = state
+    let { containerWidth, containerHeight } = CONSTANTS,
+        centerX = (containerWidth / 2) - (width / 2),
+        centerY = (containerHeight / 2) - (height / 2);
 
     return (
         <div className="shape-wrapper">
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <motion.rect
-                        initial={{ width, height, strokeWidth, stroke, rx: radius }}
-                        animate={{ width, height, strokeWidth, stroke, rotate, rx: radius }}
-                        fill={fill} x={strokeWidth} y={strokeWidth}
+                        fill={fill}
+                        rx={radius}
+                        x={centerX - 15} y={centerY - 15}
+                        width={width}
+                        height={height}
+                        stroke={stroke}
+                        strokeWidth={strokeWidth}
+                        animate={{ rotate }}
                         dragConstraints={containerRef}
+                        // dragElastic={false}
+                        drag
+                    />
+                    <motion.rect
+                        fill="white"
+                        rx={radius}
+                        x={centerX} y={centerY}
+                        width={width} height={height}
+                        animate={{ rotate }}
+                        dragConstraints={containerRef}
+                        // dragElastic={false}
                         drag
                     />
                 </Svg>
@@ -33,20 +53,19 @@ function Rect() {
             <div className="controls">
                 <Control
                     label="width"
-                    min={50}
-                    max={300}
-                    initial={100}
+                    min={width}
+                    max={200}
                     cb={setState}
                 />
                 <Control
                     label="height"
-                    min={20}
-                    max={250}
+                    min={width}
+                    max={200}
                     cb={setState}
                 />
                 <Control
                     label="rotate"
-                    max={359}
+                    max={360}
                     cb={setState}
                 />
                 <Control

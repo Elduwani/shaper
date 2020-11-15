@@ -1,5 +1,7 @@
 import Toolbar from './components/Toolbar';
 import Rect from './components/Rect'
+import Circle from './components/Circle'
+import Line from './components/Line'
 
 function App() {
   return (
@@ -7,7 +9,8 @@ function App() {
       <Toolbar />
       <section className="content-wrapper">
         <Rect />
-        <Rect />
+        <Circle />
+        <Line />
       </section>
     </div>
   );
