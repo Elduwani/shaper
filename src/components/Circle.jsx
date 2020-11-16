@@ -90,6 +90,10 @@ export default function Circle() {
     );
 }
 
+/**
+ * http://jsbin.com/quhujowota/1/edit?html,js,output
+*/
+
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 

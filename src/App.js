@@ -2,7 +2,7 @@ import Toolbar from './components/Toolbar';
 import Rect from './components/Rect'
 import Circle from './components/Circle'
 import Line from './components/Line'
-import Triangle from './components/Triangle';
+import Star from './components/Star'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <section className="content-wrapper">
         <Rect />
         <Circle />
-        <Triangle />
+        <Star />
         <Line />
       </section>
     </div>
