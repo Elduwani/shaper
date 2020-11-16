@@ -4,7 +4,7 @@ import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS } from "../utils"
 
-export default function Rect() {
+export default function Circle() {
     const containerRef = useRef()
     const minRadius = 50
     const maxRadius = 100

@@ -4,7 +4,7 @@ import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS, COLORS } from "../utils"
 
-function Rect() {
+export default function Line() {
     const containerRef = useRef()
     const [state, setState] = useState({
         copies: 5,
@@ -78,5 +78,3 @@ function Rect() {
         </div>
     );
 }
-
-export default Rect;

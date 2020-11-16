@@ -2,6 +2,7 @@ import Toolbar from './components/Toolbar';
 import Rect from './components/Rect'
 import Circle from './components/Circle'
 import Line from './components/Line'
+import Triangle from './components/Triangle';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <section className="content-wrapper">
         <Rect />
         <Circle />
+        <Triangle />
         <Line />
       </section>
     </div>

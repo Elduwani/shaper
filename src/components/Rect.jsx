@@ -5,7 +5,7 @@ import Control from "./Control";
 // import ColorPicker from "./ColorPicker";
 import { CONSTANTS } from "../utils"
 
-function Rect() {
+export default function Rect() {
     const containerRef = useRef()
     const [state, setState] = useState({ width: 100, height: 100, radius: 10, rotate: 0 })
     const [primary] = useState({ fill: '#06cdff', stroke: "cyan", strokeWidth: 2 })
@@ -91,5 +91,3 @@ function Rect() {
         </div>
     );
 }
-
-export default Rect;
