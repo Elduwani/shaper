@@ -17,8 +17,8 @@ const initialState = {
 
 export default function Star() {
     const containerRef = useRef()
-    const [key, setKey] = useState(0.5)
     const [state, setState] = useState(initialState)
+    const reset = () => setState(initialState)
 
     const { size, sides, stroke, strokeWidth, rotate, fill, offset } = state
     const { containerWidth, containerHeight } = CONSTANTS
@@ -27,13 +27,8 @@ export default function Star() {
 
     const scale = transform(offset, [0, 10], [1, 0.6])
 
-    const reset = () => {
-        setKey(Math.random() * 100)
-        setState(initialState)
-    }
-
     return (
-        <Previewer reset={reset} resetKey={key}>
+        <Previewer reset={reset}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g>

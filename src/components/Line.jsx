@@ -16,13 +16,8 @@ const initialState = {
 
 export default function Line() {
     const containerRef = useRef()
-    const [key, setKey] = useState(0.5)
     const [state, setState] = useState(initialState)
-
-    const reset = () => {
-        setKey(Math.random() * 100)
-        setState(initialState)
-    }
+    const reset = () => setState(initialState)
 
     const { copies, height, width, fill, rotate, spacing } = state
     let { containerWidth, containerHeight } = CONSTANTS,
@@ -30,7 +25,7 @@ export default function Line() {
         cy = (containerHeight / 2) - (height / 2);
 
     return (
-        <Previewer reset={reset} resetKey={key}>
+        <Previewer reset={reset}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g fill={fill}>

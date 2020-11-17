@@ -18,13 +18,8 @@ const initialState = {
 
 export default function Circle() {
     const containerRef = useRef()
-    const [key, setKey] = useState(0.5)
     const [state, setState] = useState(initialState)
-
-    const reset = () => {
-        setKey(Math.random() * 100)
-        setState(initialState)
-    }
+    const reset = () => setState(initialState)
 
     const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
     let { containerWidth, containerHeight } = CONSTANTS,
@@ -41,10 +36,15 @@ export default function Circle() {
         radius,
     })
 
-    const points = circleVectors(centerX, centerY, radius * 1.3, endAngle)
+    const points = circleVectors(
+        centerX, //cx
+        centerY, //cy
+        (radius * 1.3) + (offset * 2), //radius
+        endAngle //angle
+    )
 
     return (
-        <Previewer reset={reset} resetKey={key}>
+        <Previewer reset={reset}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
 
@@ -60,14 +60,16 @@ export default function Circle() {
                                     fill="white"
                                     cx={vector.x}
                                     cy={vector.y}
-                                    r={2}
+                                    r={scale * 3}
                                 />
                             )
                         }
-                        <circle
+                        <motion.circle
+                            initial={{ r: radius }}
+                            animate={{ r: radius }}
                             cx={centerX}
                             cy={centerY}
-                            r={radius}
+                            // r={radius}
                             fill={fill}
                         />
                     </motion.g>

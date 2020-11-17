@@ -8,7 +8,7 @@ import { v4 as uuid } from "uuid";
 export const StoreContext = createContext()
 
 export function StoreProvider(props) {
-    const [components, setComponents] = useState([])
+    const [components, setComponents] = useState([<Rect key={uuid()} />])
 
     function create(name) {
         const id = uuid()

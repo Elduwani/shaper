@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { motion, transform } from "framer-motion"
 import Previewer from "./Previewer";
+import ColorPicker from "./ColorPicker";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS } from "../utils"
@@ -9,21 +10,18 @@ const initialState = {
     width: 100,
     height: 100,
     fill: '#06cdff',
+    stroke: "#8200ff",
     rotate: 0,
     offset: 0
 }
 
 export default function Rect() {
     const containerRef = useRef()
-    const [key, setKey] = useState(0.5)
     const [state, setState] = useState(initialState)
+    const [openPalette, setOpenPalette] = useState(false)
+    const reset = () => setState(initialState)
 
-    const reset = () => {
-        setKey(Math.random() * 100)
-        setState(initialState)
-    }
-
-    const { width, height, rotate, fill, offset } = state
+    const { width, height, rotate, fill, stroke, offset } = state
     let { containerWidth, containerHeight } = CONSTANTS,
         centerX = (containerWidth / 2) - (width / 2),
         centerY = (containerHeight / 2) - (height / 2);
@@ -32,7 +30,7 @@ export default function Rect() {
     const radius = offset * 2
 
     return (
-        <Previewer reset={reset} resetKey={key}>
+        <Previewer reset={reset} togglePalette={setOpenPalette}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <motion.rect
@@ -55,8 +53,8 @@ export default function Rect() {
                             height: height * scale
                         }}
                         strokeWidth={3}
-                        stroke="#8200ff"
                         fill='transparent'
+                        stroke={stroke}
                         dragConstraints={containerRef}
                         dragMomentum={false}
                         x={centerX - 15}
@@ -65,13 +63,13 @@ export default function Rect() {
                         drag
                     />
                 </Svg>
+                {
+                    openPalette ?
+                        <ColorPicker setState={setState} />
+                        : null
+                }
             </div>
 
-            {
-                // selected ?
-                //     <ColorPicker setState={isPrimary ? setPrimary : setSecondary} />
-                //     : null
-            }
 
             <div className="controls">
                 <Control
