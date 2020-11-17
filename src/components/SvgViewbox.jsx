@@ -8,7 +8,7 @@ function SvgViewbox({ children, containerRef }) {
         const { width } = getRefSize(containerRef)
         // eslint-disable-next-line
         setViewbox(v => ({ ...v, width }))
-    }, [])
+    }, [containerRef])
 
     return (
         <svg

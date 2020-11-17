@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion"
+import { motion, transform } from "framer-motion"
 import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
@@ -9,8 +9,8 @@ const initialState = {
     width: 100,
     height: 100,
     fill: '#06cdff',
-    radius: 0,
-    rotate: 0
+    rotate: 0,
+    offset: 0
 }
 
 export default function Rect() {
@@ -23,35 +23,45 @@ export default function Rect() {
         setState(initialState)
     }
 
-    const { width, height, radius, rotate, fill } = state
+    const { width, height, rotate, fill, offset } = state
     let { containerWidth, containerHeight } = CONSTANTS,
         centerX = (containerWidth / 2) - (width / 2),
         centerY = (containerHeight / 2) - (height / 2);
+
+    const scale = transform(offset, [0, 10], [1, 0.6])
+    const radius = offset * 2
 
     return (
         <Previewer reset={reset} resetKey={key}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <motion.rect
+                        fill={fill}
+                        rx={radius}
+                        x={centerX}
+                        y={centerY}
                         width={width}
                         height={height}
-                        strokeWidth={3}
-                        stroke="#8200ff"
-                        fill='transparent'
                         animate={{ rotate }}
                         dragConstraints={containerRef}
                         dragMomentum={false}
-                        rx={radius} x={centerX - 15} y={centerY - 15}
                         drag
                     />
                     <motion.rect
-                        fill={fill}
-                        rx={radius}
-                        x={centerX} y={centerY}
-                        width={width} height={height}
-                        animate={{ rotate }}
+                        initial={{ width, height }}
+                        animate={{
+                            rotate: rotate * scale,
+                            width: width * scale,
+                            height: height * scale
+                        }}
+                        strokeWidth={3}
+                        stroke="#8200ff"
+                        fill='transparent'
                         dragConstraints={containerRef}
                         dragMomentum={false}
+                        x={centerX - 15}
+                        y={centerY - 15}
+                        rx={radius}
                         drag
                     />
                 </Svg>
@@ -67,7 +77,7 @@ export default function Rect() {
                 <Control
                     label="width"
                     min={width}
-                    max={200}
+                    max={180}
                     cb={setState}
                 />
                 <Control
@@ -82,8 +92,8 @@ export default function Rect() {
                     cb={setState}
                 />
                 <Control
-                    label="radius"
-                    max={30}
+                    label="offset"
+                    max={10}
                     cb={setState}
                 />
             </div>

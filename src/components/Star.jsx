@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion"
+import { motion, transform } from "framer-motion"
 import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
@@ -11,7 +11,8 @@ const initialState = {
     fill: "#28df99",
     stroke: "#00bcd4",
     strokeWidth: 2,
-    rotate: 0
+    rotate: 0,
+    offset: 0,
 }
 
 export default function Star() {
@@ -19,10 +20,12 @@ export default function Star() {
     const [key, setKey] = useState(0.5)
     const [state, setState] = useState(initialState)
 
-    const { size, sides, stroke, strokeWidth, rotate, fill } = state
+    const { size, sides, stroke, strokeWidth, rotate, fill, offset } = state
     const { containerWidth, containerHeight } = CONSTANTS
     const cx = containerWidth / 2
     const cy = containerHeight / 2
+
+    const scale = transform(offset, [0, 10], [1, 0.6])
 
     const reset = () => {
         setKey(Math.random() * 100)
@@ -35,22 +38,23 @@ export default function Star() {
                 <Svg containerRef={containerRef}>
                     <g>
                         <motion.polygon
-                            points={generateStar(size, sides, cx - 20, cy + 15)}
-                            fill="transparent"
+                            drag
                             stroke={stroke}
+                            fill="transparent"
+                            animate={{ rotate }}
+                            dragMomentum={false}
                             strokeLinejoin="round"
                             strokeWidth={strokeWidth}
                             dragConstraints={containerRef}
-                            dragMomentum={false}
-                            animate={{ rotate }}
-                            drag
+                            points={generateStar(size, sides, cx - 20, cy + 15)}
                         />
                         <motion.polygon
                             fill={fill}
+                            animate={{ rotate: rotate * scale, scale }}
                             points={generateStar(size, sides, cx, cy)}
                             dragConstraints={containerRef}
                             dragMomentum={false}
-                            animate={{ rotate }}
+                            initial={{ scale: 1 }}
                             drag
                         />
                     </g>
@@ -74,6 +78,11 @@ export default function Star() {
                 <Control
                     label="rotate"
                     max={360}
+                    cb={setState}
+                />
+                <Control
+                    label="offset"
+                    max={10}
                     cb={setState}
                 />
             </div>

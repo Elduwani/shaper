@@ -67,6 +67,8 @@ body {
 
         .svg-container{
           overflow: hidden;
+
+          svg * { cursor: pointer; }
         }
         
         .color-picker-wrapper{

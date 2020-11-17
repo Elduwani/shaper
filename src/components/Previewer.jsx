@@ -9,7 +9,12 @@ const arrow = {
 
 export default function Previewer({ children, reset, resetKey }) {
     return (
-        <div className="shape-wrapper">
+        <motion.div
+            className="shape-wrapper"
+            initial={{ scale: 0.8, opacity: 0.8, y: -100 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+        // transition={{ duration: 0.3 }}
+        >
             <div className="reload" onClick={reset}>
                 <motion.div
                     initial="rest"
@@ -21,7 +26,7 @@ export default function Previewer({ children, reset, resetKey }) {
                 </motion.div>
             </div>
             <Resetter key={resetKey}>{children}</Resetter>
-        </div>
+        </motion.div>
     )
 }
 

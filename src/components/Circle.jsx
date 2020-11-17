@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion"
+import { motion, transform } from "framer-motion"
 import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
@@ -9,11 +9,11 @@ const minRadius = 50
 const maxRadius = 100
 const initialState = {
     radius: minRadius,
-    endAngle: 20,
+    endAngle: 60,
     fill: "blue",
     stroke: "cyan",
     strokeWidth: 6,
-    rotate: 0,
+    offset: 0,
 }
 
 export default function Circle() {
@@ -26,17 +26,19 @@ export default function Circle() {
         setState(initialState)
     }
 
-    const { radius, endAngle, stroke, strokeWidth, fill } = state
+    const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
     let { containerWidth, containerHeight } = CONSTANTS,
         centerX = containerWidth / 2,
         centerY = containerHeight / 2;
+    //shrink outlined circle between x% - 100% based on reversed offset
+    const scale = transform(offset, [0, 10], [1, 0.6])
 
     const d = drawArc({
         x: strokeWidth + centerX + 10,
         y: strokeWidth + centerY + 10,
-        radius,
         startAngle: 0,
         endAngle,
+        radius,
     })
 
     const points = circleVectors(centerX, centerY, radius * 1.3, endAngle)
@@ -72,16 +74,16 @@ export default function Circle() {
 
                     <motion.path
                         d={d}
-                        fill="transparent"
                         stroke={stroke}
-                        strokeWidth={strokeWidth}
+                        fill="transparent"
                         strokeLinecap="round"
+                        strokeWidth={strokeWidth}
+                        initial={{ scale: 1 }}
+                        animate={{ scale }}
                         dragConstraints={containerRef}
                         dragMomentum={false}
-                        // dragElastic={false}
                         drag
                     />
-
                 </Svg>
             </div>
 
@@ -108,8 +110,8 @@ export default function Circle() {
                     cb={setState}
                 />
                 <Control
-                    label="rotate"
-                    max={360}
+                    label="offset"
+                    max={10}
                     cb={setState}
                 />
             </div>

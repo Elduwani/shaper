@@ -1,9 +1,12 @@
-import { useRef, useState, useLayoutEffect } from "react"
+import { useContext, useRef, useState, useLayoutEffect } from "react"
+import { StoreContext } from '../contexts/Store.context'
 import { getRefSize } from "../utils";
 import SvgViewbox from "./SvgViewbox";
 import "../css/toolbar.scss"
 
 export default function Toolbar() {
+    const { create } = useContext(StoreContext)
+
     const ref = useRef()
     const [iconSize, setIconSize] = useState(40)
 
@@ -24,16 +27,30 @@ export default function Toolbar() {
         <section className="toolbar-wrapper">
             <ul className="toolbar">
                 <li>
-                    <div className="rect"></div>
+                    <div
+                        className="rect"
+                        onClick={() => { create("rect") }}>
+                    </div>
                 </li>
                 <li>
-                    <div className="circle"></div>
+                    <div
+                        className="circle"
+                        onClick={() => { create("circle") }}>
+                    </div>
                 </li>
                 <li>
-                    <div className="line"></div>
+                    <div
+                        className="line"
+                        onClick={() => { create("lines") }}
+                    >
+                    </div>
                 </li>
                 <li>
-                    <div ref={ref} style={{ border: "none" }}>
+                    <div
+                        ref={ref}
+                        style={{ border: "none" }}
+                        onClick={() => { create("star") }}
+                    >
                         <SvgViewbox containerRef={ref}>
                             <polygon points={points.join("")} />
                         </SvgViewbox>
