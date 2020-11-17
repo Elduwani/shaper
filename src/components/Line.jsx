@@ -14,7 +14,7 @@ const initialState = {
     rotate: 15,
 }
 
-export default function Line() {
+export default function Line({ id }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const reset = () => setState(initialState)
@@ -25,7 +25,7 @@ export default function Line() {
         cy = (containerHeight / 2) - (height / 2);
 
     return (
-        <Previewer reset={reset}>
+        <Previewer id={id} reset={reset} state={state}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g fill={fill}>

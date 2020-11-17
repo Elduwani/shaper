@@ -1,12 +1,12 @@
-import { useState, useRef, useLayoutEffect } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import { motion, useMotionValue, transform, useDragControls } from 'framer-motion'
-import '../css/controls.scss'
 import { getRefSize } from '../utils'
+import '../css/controls.scss'
 
 export default function Control({ name, label, min = 0, max = 100, cb }) {
     const constraintRef = useRef(null)
     const sliderWidth = useRef(0)
-    const [value, setValue] = useState(min)
+    const value = useMotionValue(min)
     const x = useMotionValue(0)
     const handleSize = 20
 
@@ -16,7 +16,6 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
     function startDrag(event) {
         dragControls.start(event, { snapToCursor: true })
     }
-
 
     useLayoutEffect(() => {
         //need to automatically calculate the computed width of the slider
@@ -34,7 +33,7 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
             // console.log(name, "-->", latest, max)
             const mapped = transform(latest, input, output)
             const val = ~~mapped
-            setValue(val)
+            value.set(val)
             cb(st => ({ ...st, [name ?? label]: val }))
         })
 
@@ -44,7 +43,7 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
     return (
         <div className="control-wrapper">
             <div className="label">{label ?? name}</div>
-            <div className="value">{value}</div>
+            <div className="value">{value.get()}</div>
             <div className="slider" ref={constraintRef} onPointerDown={startDrag}>
                 <div className="bar">
                     <motion.div

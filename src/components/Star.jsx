@@ -4,6 +4,7 @@ import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS, generateStar } from "../utils"
+import ColorPicker from "./ColorPicker";
 
 const initialState = {
     size: 80,
@@ -15,9 +16,10 @@ const initialState = {
     offset: 0,
 }
 
-export default function Star() {
+export default function Star({ id }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
+    const [openPalette, setOpenPalette] = useState(false)
     const reset = () => setState(initialState)
 
     const { size, sides, stroke, strokeWidth, rotate, fill, offset } = state
@@ -28,7 +30,12 @@ export default function Star() {
     const scale = transform(offset, [0, 10], [1, 0.6])
 
     return (
-        <Previewer reset={reset}>
+        <Previewer
+            id={id}
+            reset={reset}
+            state={state}
+            togglePalette={setOpenPalette}
+        >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g>
@@ -54,6 +61,12 @@ export default function Star() {
                         />
                     </g>
                 </Svg>
+
+                <ColorPicker
+                    setState={setState}
+                    isOpen={openPalette}
+                />
+
             </div>
 
             <div className="controls">

@@ -15,10 +15,11 @@ const initialState = {
     offset: 0
 }
 
-export default function Rect() {
+export default function Rect({ id }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const [openPalette, setOpenPalette] = useState(false)
+
     const reset = () => setState(initialState)
 
     const { width, height, rotate, fill, stroke, offset } = state
@@ -30,12 +31,16 @@ export default function Rect() {
     const radius = offset * 2
 
     return (
-        <Previewer reset={reset} togglePalette={setOpenPalette}>
+        <Previewer
+            id={id}
+            reset={reset}
+            state={state}
+            togglePalette={setOpenPalette}
+        >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <motion.rect
                         fill={fill}
-                        rx={radius}
                         x={centerX}
                         y={centerY}
                         width={width}
@@ -63,13 +68,13 @@ export default function Rect() {
                         drag
                     />
                 </Svg>
-                {
-                    openPalette ?
-                        <ColorPicker setState={setState} />
-                        : null
-                }
-            </div>
 
+                <ColorPicker
+                    setState={setState}
+                    isOpen={openPalette}
+                />
+
+            </div>
 
             <div className="controls">
                 <Control

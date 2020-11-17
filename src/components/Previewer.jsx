@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useContext, useEffect } from "react"
+import { StoreContext } from "../contexts/Store.context"
 import { motion } from "framer-motion"
 import { FiRotateCw, FiDroplet as PaletteIcon } from "react-icons/fi"
 
@@ -8,13 +9,20 @@ const iconVariants = {
     pressed: { scale: 0.9 }
 };
 
-export default function Previewer({ children, reset, togglePalette }) {
+export default function Previewer({ children, reset, state, id, togglePalette }) {
     const [key, setKey] = useState(0.5)
+    const { updateTracker } = useContext(StoreContext)
+
+    const toggleColors = () => togglePalette(bool => !bool)
 
     const remount = () => {
         reset && reset()
-        setKey(Math.random() * 100)
+        setKey(k => k + 1)
     }
+
+    useEffect(() => {
+        updateTracker(state, id)
+    }, [state]);
 
     return (
         <motion.div
@@ -24,7 +32,7 @@ export default function Previewer({ children, reset, togglePalette }) {
         >
 
             <div className="menu-wrapper">
-                <div className="menu-item reset" onClick={remount}>
+                <div className="menu-item" onClick={remount}>
                     <motion.div
                         initial="rest"
                         variants={iconVariants}
@@ -34,19 +42,19 @@ export default function Previewer({ children, reset, togglePalette }) {
                         <FiRotateCw />
                     </motion.div>
                 </div>
-
-                <div
-                    className="menu-item palette"
-                    onClick={() => togglePalette(open => !open)}
-                >
-                    <motion.div
-                        initial="rest"
-                        variants={iconVariants}
-                        whileTap="pressed"
-                    >
-                        <PaletteIcon />
-                    </motion.div>
-                </div>
+                {
+                    togglePalette ?
+                        <div className="menu-item" onClick={toggleColors}>
+                            <motion.div
+                                initial="rest"
+                                variants={iconVariants}
+                                whileTap="pressed"
+                            >
+                                <PaletteIcon />
+                            </motion.div>
+                        </div>
+                        : null
+                }
             </div>
 
             <Container key={key}>{children}</Container>
@@ -56,5 +64,6 @@ export default function Previewer({ children, reset, togglePalette }) {
 }
 
 function Container({ children }) {
+    // console.log("Previewer rendering...!")
     return <>{children}</>
 }

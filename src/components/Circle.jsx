@@ -4,6 +4,7 @@ import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS, drawArc, circleVectors } from "../utils"
+import ColorPicker from "./ColorPicker";
 
 const minRadius = 50
 const maxRadius = 100
@@ -16,9 +17,10 @@ const initialState = {
     offset: 0,
 }
 
-export default function Circle() {
+export default function Circle({ id }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
+    const [openPalette, setOpenPalette] = useState(false)
     const reset = () => setState(initialState)
 
     const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
@@ -44,10 +46,14 @@ export default function Circle() {
     )
 
     return (
-        <Previewer reset={reset}>
+        <Previewer
+            id={id}
+            reset={reset}
+            state={state}
+            togglePalette={setOpenPalette}
+        >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
-
                     <motion.g
                         drag
                         dragConstraints={containerRef}
@@ -87,6 +93,12 @@ export default function Circle() {
                         drag
                     />
                 </Svg>
+
+                <ColorPicker
+                    setState={setState}
+                    isOpen={openPalette}
+                />
+
             </div>
 
             <div className="controls">

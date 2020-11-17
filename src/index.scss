@@ -12,6 +12,7 @@
 }
 html{
   background-color: #0F0F13;
+  @include customScrollBar;
 }
 body {
   margin: 0;
@@ -20,7 +21,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
     
 .App{
@@ -36,7 +36,6 @@ body {
       justify-content: center;
       grid-template-columns: repeat(2, 350px);
       gap: $space-6;
-
 
       .shape-wrapper{
         background-color: $clr-gray-2;
@@ -70,7 +69,7 @@ body {
             svg{
               width: 55%;
               height: 55%;
-              stroke: $clr-accent-blue;
+              stroke: $clr-gray-4;
             }
           }
         }

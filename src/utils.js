@@ -1,4 +1,24 @@
+import { useEffect, useRef } from 'react';
 import { transform } from "framer-motion"
+
+export function useInterval(callback, delay) {
+    const savedCallback = useRef()
+
+    //remember the latest callback
+    useEffect(() => {
+        savedCallback.current = callback
+    }, [callback])
+
+    useEffect(() => {
+        const tick = () => savedCallback.current()
+
+        if (delay !== null) {
+            let counter1 = setInterval(tick, delay)
+            return () => clearInterval(counter1)
+        }
+        //eslint-disable-next-line
+    }, [delay])
+}
 
 export const CONSTANTS = {
     containerWidth: 350,
@@ -12,31 +32,21 @@ export const COLORS = [
 ]
 
 export const PALETTES = [
-    ["blue", "cyan"],
-    ["#fca3cc", "#bce6eb"],
-    ["#8200ff", "#06cdff"],
-    ["#00bcd4", "#28df99"],
-    ["#ec5858", "#edf285"],
-    ["#bbbbbb", "#f2dcbb"],
-    ["#f05454", "#e8e8e8"],
-    ["#9088d4", "#ebcfc4"],
-    ["#adb36e", "#fad5ad"],
-    ["#892cdc", "#bc6ff1"],
-    ["#8bcdcd", "#cee397"],
-    ["#bedbbb", "#8db596"],
-    ["#7579e7", "#9ab3f5"],
-    ["#a3d8f4", "#b9fffc"],
-    ["#726a95", "#709fb0"],
-    ["#931a25", "#e97171"],
-    ["#ffcb8e", "#f5efef"],
-    ["#d789d7", "#5d54a4"],
+    ["blue", "cyan"], ["#fca3cc", "#bce6eb"],
+    ["#8200ff", "#06cdff"], ["#00bcd4", "#28df99"],
+    ["#ec5858", "#edf285"], ["#bbbbbb", "#f2dcbb"],
+    ["#f05454", "#e8e8e8"], ["#9088d4", "#ebcfc4"],
+    ["#adb36e", "#fad5ad"], ["#892cdc", "#bc6ff1"],
+    ["#8bcdcd", "#cee397"], ["#bedbbb", "#8db596"],
+    ["#7579e7", "#9ab3f5"], ["#a3d8f4", "#b9fffc"],
+    ["#726a95", "#709fb0"], ["#931a25", "#e97171"],
+    ["#ffcb8e", "#f5efef"], ["#d789d7", "#5d54a4"],
     ["#28df99", "#d2f6c5"],
 ]
 
 /**
  * http://jsbin.com/quhujowota/1/edit?html,js,output
 */
-
 export function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
     var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 
@@ -45,7 +55,6 @@ export function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
         y: centerY + (radius * Math.sin(angleInRadians))
     };
 }
-
 export function drawArc({ x, y, radius, startAngle, endAngle }) {
     x = x ?? radius
     y = y ?? radius
@@ -64,7 +73,7 @@ export function drawArc({ x, y, radius, startAngle, endAngle }) {
 
 export function generateStar(s, sides = 3, cx = 0, cy = 0) {
     /**
-     * pentagram reference:
+     * pentagram image guide reference =>
      * https://www.algebra.com/algebra/homework/word/geometry/Geometry_Word_Problems.faq.question.1113151.html
     */
     const size = s / 2

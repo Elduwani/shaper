@@ -75,18 +75,18 @@ $clr-gray-5: #D3D3D4;
   scroll-behavior: smooth;
 
     &::-webkit-scrollbar{
-      @include borderRadius();
+      @include radius();
       width: 6px;
     }
       
     &::-webkit-scrollbar-track{
-      @include borderRadius();
+      @include radius();
       background: $clr-gray-5;
     }
 
     &::-webkit-scrollbar-thumb{
       background: $clr-gray-4;
-      @include borderRadius();
+      @include radius();
 
       &:hover{
         background: $clr-gray-4;

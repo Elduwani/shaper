@@ -3,6 +3,8 @@ import Home from "./pages/Home"
 import Toolbar from './components/Toolbar';
 
 function App() {
+  // console.log("App rendering...")
+
   return (
     <StoreProvider>
       <div className="App">
