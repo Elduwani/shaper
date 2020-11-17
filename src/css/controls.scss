@@ -10,12 +10,12 @@
         display: grid;
         margin: $space-1 0;
         grid-template-columns: 50px 45px 1fr;
-        gap: 15px;
+        gap: $space-2;
     
         > div {
             height: $height;
             // border: 1px solid red;
-            color: white;
+            color: $clr-gray-5;
     
             * {
                 color: white;
@@ -34,8 +34,10 @@
             overflow: hidden;
             border-radius: 8px;
             place-items: center;
-            border: 1px solid $clr-gray-4;
+            background-color: $clr-gray-3;
+            // border: 1px solid $clr-gray-3;
     
+            /* 
             input{
                 height: 100%;
                 width: 60%;
@@ -44,7 +46,6 @@
                 outline: none;
                 color: white
             }
-    
             .arrows{
                 flex: 1;
                 display: flex;
@@ -65,18 +66,21 @@
                     stroke: $clr-gray-4;
                 }
             }
+            */
         }
     
         .slider{
             display: flex;
             align-items: center;
             position: relative;
+            cursor: pointer;
+            // @include border;
     
             .bar{
                 height: 5px;
                 width: 100%;
                 border-radius: 100px;
-                background-color: $clr-gray-4;
+                background-color: $clr-gray-3;
                 overflow: hidden;
                 
                 .progress{
@@ -84,12 +88,13 @@
                 }
             }
             .handle{
+                left: 0;
                 width: 20px;
                 height: 20px;
                 position: absolute;
-                left: 0;
                 background-color: $clr-gray-5;
                 border-radius: 50%;
+                cursor: pointer;
                 border: none;
             }
         }

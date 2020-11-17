@@ -1,29 +1,45 @@
-import { useRef } from "react"
+import { useRef, useState, useLayoutEffect } from "react"
+import { getRefSize } from "../utils";
 import SvgViewbox from "./SvgViewbox";
+import "../css/toolbar.scss"
 
 export default function Toolbar() {
     const ref = useRef()
+    const [iconSize, setIconSize] = useState(40)
 
     const points = Array(3).fill(true).map((_, i) => {
-        //Generate points to draw a triangle => "0, 60 30, 0 60, 60"
-        const iconSize = 60
+        //Generate points to draw a triangle => "0, 50 30, 0 50, 50"
+        //I could just write the points out tho...
         const x = (iconSize / 2) * i
         const y = i === 1 ? 0 : iconSize - 3 //reducing iconSize because of oveshooting...
         return `${x}, ${y} `
     })
 
+    useLayoutEffect(() => {
+        const { width, height } = getRefSize(ref)
+        setIconSize(width ?? height)
+    }, []);
+
     return (
         <section className="toolbar-wrapper">
-            <div className="toolbar">
-                <div className="icon rect"></div>
-                <div className="icon circle"></div>
-                <div className="icon line"><div></div></div>
-                <div className="icon triangle" ref={ref}>
-                    <SvgViewbox containerRef={ref}>
-                        <polygon points={points.join("")} />
-                    </SvgViewbox>
-                </div>
-            </div>
+            <ul className="toolbar">
+                <li>
+                    <div className="rect"></div>
+                </li>
+                <li>
+                    <div className="circle"></div>
+                </li>
+                <li>
+                    <div className="line"></div>
+                </li>
+                <li>
+                    <div ref={ref} style={{ border: "none" }}>
+                        <SvgViewbox containerRef={ref}>
+                            <polygon points={points.join("")} />
+                        </SvgViewbox>
+                    </div>
+                </li>
+            </ul>
         </section>
     )
 }

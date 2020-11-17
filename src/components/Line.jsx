@@ -1,19 +1,28 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion"
+import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS, COLORS } from "../utils"
 
+const initialState = {
+    copies: 5,
+    height: 200,
+    width: 3,
+    fill: "cyan",
+    spacing: 20,
+    rotate: 15,
+}
+
 export default function Line() {
     const containerRef = useRef()
-    const [state, setState] = useState({
-        copies: 5,
-        height: 200,
-        width: 3,
-        fill: "cyan",
-        spacing: 20,
-        rotate: 25,
-    })
+    const [key, setKey] = useState(0.5)
+    const [state, setState] = useState(initialState)
+
+    const reset = () => {
+        setKey(Math.random() * 100)
+        setState(initialState)
+    }
 
     const { copies, height, width, fill, rotate, spacing } = state
     let { containerWidth, containerHeight } = CONSTANTS,
@@ -21,7 +30,7 @@ export default function Line() {
         cy = (containerHeight / 2) - (height / 2);
 
     return (
-        <div className="shape-wrapper">
+        <Previewer reset={reset} resetKey={key}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g fill={fill}>
@@ -56,14 +65,16 @@ export default function Line() {
                     cb={setState}
                 />
                 <Control
-                    label="height"
+                    name="height"
+                    label="length"
                     min={height}
                     max={450}
                     cb={setState}
                 />
                 <Control
-                    label="spacing"
-                    min={10}
+                    name="spacing"
+                    label="spread"
+                    min={spacing}
                     max={40}
                     cb={setState}
                 />
@@ -75,6 +86,6 @@ export default function Line() {
                     cb={setState}
                 />
             </div>
-        </div>
+        </Previewer>
     );
 }

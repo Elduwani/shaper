@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react"
+import { getRefSize } from "../utils"
 
 function SvgViewbox({ children, containerRef }) {
     const [viewbox, setViewbox] = useState({ width: 100, height: 250 })
 
     useEffect(() => {
-        if (containerRef) {
-            //Set width of viewBox to the parent element's full width
-            const compStyles = window.getComputedStyle(containerRef.current);
-            const width = Number(compStyles.getPropertyValue('width').replace(/[^\d]/g, ''))
-            // eslint-disable-next-line
-            setViewbox(v => ({ ...v, width }))
-        }
+        const { width } = getRefSize(containerRef)
+        // eslint-disable-next-line
+        setViewbox(v => ({ ...v, width }))
     }, [])
 
     return (

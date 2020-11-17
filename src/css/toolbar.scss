@@ -1,0 +1,74 @@
+@import "./variables";
+
+.toolbar-wrapper{
+    display: grid;
+    place-items: center;
+    margin-top: $space-3;
+    margin-bottom: $space-5;
+    // @include border;
+    
+    .toolbar{
+      $icon-size: 40px;
+
+      width: 300px;
+      display: flex;
+      border-radius: 16px;
+      background-color: $clr-gray-2;
+      height: calc(#{$icon-size} + 40px);
+      overflow: hidden;
+
+      li {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        // @include border;
+        
+        
+        > div {
+          cursor: pointer;
+          border: 2px solid $clr-gray-4;
+          width: $icon-size;
+          height: $icon-size;
+          @include animation;
+          
+          &:hover{
+            filter: brightness(0.7);
+          }
+        }
+        
+        .rect{
+          @include radius;
+        }
+        .circle{
+          @include radius(100px);
+        }
+        .line{
+          border: none;
+          display: grid;
+          place-items: center;
+
+          &::before{
+            width: 2px;
+            content: "";
+            display: block;
+            height: $icon-size;
+            background-color: $clr-gray-4;
+            transform: rotate(32deg);
+          }
+        }
+        
+      }
+
+      svg {
+        @include animation;
+        
+        polygon, path{
+          fill: none;
+          stroke: $clr-gray-4;
+          stroke-width: 2px;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+      } 
+    }
+  }

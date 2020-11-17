@@ -1,7 +1,7 @@
 import { useState, useRef, useLayoutEffect } from 'react'
-import { motion, useMotionValue, transform } from 'framer-motion'
-// import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
+import { motion, useMotionValue, transform, useDragControls } from 'framer-motion'
 import '../css/controls.scss'
+import { getRefSize } from '../utils'
 
 export default function Control({ name, label, min = 0, max = 100, cb }) {
     const constraintRef = useRef(null)
@@ -11,13 +11,18 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
     const handleSize = 20
 
     const progress = transform(x.get(), [0, sliderWidth.current], [0, 100])
+    const dragControls = useDragControls()
+
+    function startDrag(event) {
+        dragControls.start(event, { snapToCursor: true })
+    }
+
 
     useLayoutEffect(() => {
         //need to automatically calculate the computed width of the slider
         //for max value of transform input
-        const refStyles = window.getComputedStyle(constraintRef.current)
-        const refWidth = Number(refStyles.getPropertyValue('width').replace(/[^\d]/g, ''))
-        const maxWidth = refWidth - handleSize
+        const { width } = getRefSize(constraintRef)
+        const maxWidth = width - handleSize
         sliderWidth.current = maxWidth
 
         const input = [0, maxWidth]
@@ -26,7 +31,7 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
         cb(st => ({ ...st, [name ?? label]: min }))
 
         const unsubscribe = x.onChange(latest => {
-            // console.log(progress)
+            // console.log(name, "-->", latest, max)
             const mapped = transform(latest, input, output)
             const val = ~~mapped
             setValue(val)
@@ -40,17 +45,22 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
         <div className="control-wrapper">
             <div className="label">{label ?? name}</div>
             <div className="value">{value}</div>
-            <div className="slider">
-                <div className="bar" ref={constraintRef}>
-                    <motion.div className="progress" style={{ width: progress + "%", height: "100%" }} />
+            <div className="slider" ref={constraintRef} onPointerDown={startDrag}>
+                <div className="bar">
+                    <motion.div
+                        className="progress"
+                        style={{ width: progress + "%", height: "100%" }}
+                    />
                 </div>
                 <motion.div
-                    drag="x"
+                    className="handle"
                     dragElastic={0}
                     dragConstraints={constraintRef}
-                    dragMomentum={false}
                     style={{ x, width: handleSize, height: handleSize }}
-                    className="handle"
+                    dragControls={dragControls}
+                    dragMomentum={false}
+                    dragDirectionLock
+                    drag="x"
                 />
             </div>
         </div>

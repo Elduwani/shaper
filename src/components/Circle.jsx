@@ -1,63 +1,90 @@
 import { useState, useRef } from "react";
 import { motion } from "framer-motion"
+import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
-import { CONSTANTS } from "../utils"
+import { CONSTANTS, drawArc, circleVectors } from "../utils"
+
+const minRadius = 50
+const maxRadius = 100
+const initialState = {
+    radius: minRadius,
+    endAngle: 20,
+    fill: "blue",
+    stroke: "cyan",
+    strokeWidth: 6,
+    rotate: 0,
+}
 
 export default function Circle() {
     const containerRef = useRef()
-    const minRadius = 50
-    const maxRadius = 100
-    const [state, setState] = useState({
-        radius: minRadius,
-        endAngle: 250,
-        fill: "blue",
-        stroke: "cyan",
-        strokeWidth: 6,
-        rotate: 0
-    })
+    const [key, setKey] = useState(0.5)
+    const [state, setState] = useState(initialState)
 
-    const { radius, endAngle, stroke, strokeWidth, rotate, fill } = state
+    const reset = () => {
+        setKey(Math.random() * 100)
+        setState(initialState)
+    }
+
+    const { radius, endAngle, stroke, strokeWidth, fill } = state
     let { containerWidth, containerHeight } = CONSTANTS,
         centerX = containerWidth / 2,
         centerY = containerHeight / 2;
 
-    const d = describeArc({
+    const d = drawArc({
         x: strokeWidth + centerX + 10,
         y: strokeWidth + centerY + 10,
         radius,
         startAngle: 0,
         endAngle,
     })
-    // console.log(d)
+
+    const points = circleVectors(centerX, centerY, radius * 1.3, endAngle)
 
     return (
-        <div className="shape-wrapper">
+        <Previewer reset={reset} resetKey={key}>
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
-                    <g>
-                        <motion.circle
+
+                    <motion.g
+                        drag
+                        dragConstraints={containerRef}
+                        dragMomentum={false}
+                    >
+                        {
+                            points.map((vector, i) =>
+                                <circle
+                                    key={i}
+                                    fill="white"
+                                    cx={vector.x}
+                                    cy={vector.y}
+                                    r={2}
+                                />
+                            )
+                        }
+                        <circle
                             cx={centerX}
                             cy={centerY}
                             r={radius}
                             fill={fill}
-                            dragConstraints={containerRef}
-                            // dragElastic={false}
-                            drag
                         />
-                        <motion.path
-                            d={d}
-                            fill="transparent"
-                            stroke={stroke}
-                            strokeWidth={strokeWidth}
-                            strokeLinecap="round"
-                            dragConstraints={containerRef}
-                            // dragElastic={false}
-                            drag
-                        />
-                    </g>
+                    </motion.g>
+
+                    <motion.path
+                        d={d}
+                        fill="transparent"
+                        stroke={stroke}
+                        strokeWidth={strokeWidth}
+                        strokeLinecap="round"
+                        dragConstraints={containerRef}
+                        dragMomentum={false}
+                        // dragElastic={false}
+                        drag
+                    />
+
                 </Svg>
             </div>
+
             <div className="controls">
                 <Control
                     name="radius"
@@ -86,35 +113,7 @@ export default function Circle() {
                     cb={setState}
                 />
             </div>
-        </div>
+
+        </Previewer>
     );
-}
-
-/**
- * http://jsbin.com/quhujowota/1/edit?html,js,output
-*/
-
-function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-    var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-
-    return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
-    };
-}
-
-function describeArc({ x, y, radius, startAngle, endAngle }) {
-    x = x ?? radius
-    y = y ?? radius
-    const start = polarToCartesian(x, y, radius, endAngle);
-    const end = polarToCartesian(x, y, radius, startAngle);
-
-    const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-
-    const d = [
-        "M", start.x, start.y,
-        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
-    ].join(" ");
-
-    return d;
 }
