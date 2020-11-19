@@ -34,7 +34,7 @@ export default function Star({ id }) {
             id={id}
             reset={reset}
             state={state}
-            togglePalette={setOpenPalette}
+            openPalette={setOpenPalette}
         >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>

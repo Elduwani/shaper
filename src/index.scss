@@ -71,9 +71,21 @@ body {
               height: 55%;
               stroke: $clr-gray-4;
             }
+
+            &.toggle{
+              // background: transparent;
+              height: $space-3;
+              @include gridCenter;
+              margin-bottom: $space-2;
+
+              svg{
+                width: 120%;
+                height: 120%;
+              }
+            }
           }
         }
-
+          
         .svg-container{
           overflow: hidden;
           position: relative;

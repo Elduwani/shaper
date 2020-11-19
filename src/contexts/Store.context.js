@@ -15,7 +15,7 @@ export function StoreProvider(props) {
 
     function create(name) {
         const id = uuid()
-        setComponents(items => ([make(name, id), ...items]))
+        setComponents(items => ([addComponent(name, id), ...items]))
     }
 
     function updateTracker(state, id) {
@@ -26,17 +26,17 @@ export function StoreProvider(props) {
         }
     }
 
-    function remove(id) {
-        const filtered = components.filter(el => el.id !== id)
+    function removeComponent(id) {
+        const filtered = components.filter(el => el.props.id !== id)
         setComponents(filtered)
     }
 
-    useInterval(() => {
-        localStorage.setItem("components", JSON.stringify(tracker.current))
-        console.log("saved to localStorage!...")
-        // const d = localStorage.getItem("components")
-        // console.log(d)
-    }, 15000)
+    // useInterval(() => {
+    //     localStorage.setItem("components", JSON.stringify(tracker.current))
+    //     console.log("saved to localStorage!...")
+    //     // const d = localStorage.getItem("components")
+    //     // console.log(d)
+    // }, 15000)
 
     useEffect(() => {
         const d = components.map(({ props }) => ({ type: props.name, id: props.id }))
@@ -44,13 +44,13 @@ export function StoreProvider(props) {
     }, [components]);
 
     return (
-        <StoreContext.Provider value={{ components, updateTracker, create, remove }}>
+        <StoreContext.Provider value={{ components, updateTracker, create, removeComponent }}>
             {props.children}
         </StoreContext.Provider>
     )
 }
 
-function make(name, id) {
+function addComponent(name, id) {
     switch (name) {
         case "rect":
             return <Rect key={id} id={id} name="rect" />
