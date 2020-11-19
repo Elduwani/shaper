@@ -42,7 +42,7 @@ export default function Circle({ id }) {
         centerX, //cx
         centerY, //cy
         (radius * 1.3) + (offset * 2), //radius
-        endAngle //angle
+        endAngle * 0.7 //70% of the angle
     )
 
     return (
@@ -50,7 +50,8 @@ export default function Circle({ id }) {
             id={id}
             reset={reset}
             state={state}
-            openPalette={setOpenPalette}
+            openPalette={openPalette}
+            setOpenPalette={setOpenPalette}
         >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>

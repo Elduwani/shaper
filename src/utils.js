@@ -20,6 +20,13 @@ export function useInterval(callback, delay) {
     }, [delay])
 }
 
+export function useDebounce(callback, delay, state) {
+    useEffect(() => {
+        const timer = setTimeout(() => callback(), delay);
+        return () => clearTimeout(timer);
+    }, [state ?? delay])
+}
+
 export const CONSTANTS = {
     containerWidth: 350,
     containerHeight: 250,
@@ -71,6 +78,17 @@ export function drawArc({ x, y, radius, startAngle, endAngle }) {
     return d;
 }
 
+export function circleVectors(cx, cy, radius, deg) {
+    let points = []
+    const inc = 15 //increment in degrees
+
+    for (let angle = 0; angle < deg; angle += inc) {
+        const { x, y } = polarToCartesian(cx, cy, radius, angle)
+        points.push({ x, y })
+    }
+    return points
+}
+
 export function generateStar(s, sides = 3, cx = 0, cy = 0) {
     /**
      * pentagram image guide reference =>
@@ -118,17 +136,6 @@ export function generateStar(s, sides = 3, cx = 0, cy = 0) {
                 ${x(-6)}, ${y(-6)}
             `
     }
-}
-
-export function circleVectors(cx, cy, radius, deg) {
-    let points = []
-    const inc = 15 //increment in degrees
-
-    for (let angle = 0; angle < deg; angle += inc) {
-        const { x, y } = polarToCartesian(cx, cy, radius, angle)
-        points.push({ x, y })
-    }
-    return points
 }
 
 export function getRefSize(ref) {

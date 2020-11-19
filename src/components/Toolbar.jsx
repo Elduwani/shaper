@@ -2,10 +2,11 @@ import { useContext, useRef, useState, useLayoutEffect } from "react"
 import { StoreContext } from '../contexts/Store.context'
 import { getRefSize } from "../utils";
 import SvgViewbox from "./SvgViewbox";
+import { FiUpload as SaveIcon } from "react-icons/fi";
 import "../css/toolbar.scss"
 
 export default function Toolbar() {
-    const { create } = useContext(StoreContext)
+    const { create, saveLocal } = useContext(StoreContext)
 
     const ref = useRef()
     const [iconSize, setIconSize] = useState(40)
@@ -57,6 +58,10 @@ export default function Toolbar() {
                     </div>
                 </li>
             </ul>
+
+            <div className="save-button" onClick={saveLocal}>
+                <SaveIcon />
+            </div>
         </section>
     )
 }

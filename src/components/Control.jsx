@@ -1,43 +1,50 @@
-import { useRef, useLayoutEffect } from 'react'
+import { useRef, useLayoutEffect, useEffect } from 'react'
 import { motion, useMotionValue, transform, useDragControls } from 'framer-motion'
 import { getRefSize } from '../utils'
 import '../css/controls.scss'
 
-export default function Control({ name, label, min = 0, max = 100, cb }) {
+export default function Control({ name, label, min = 0, max = 10, cb, state }) {
+    const dragControls = useDragControls()
     const constraintRef = useRef(null)
     const sliderWidth = useRef(0)
-    const value = useMotionValue(min)
+    const initialValue = state ? state[name ?? label] : min
+    const value = useMotionValue(initialValue)
+    const progressBar = useMotionValue(0)
     const x = useMotionValue(0)
     const handleSize = 20
-
-    const progress = transform(x.get(), [0, sliderWidth.current], [0, 100])
-    const dragControls = useDragControls()
 
     function startDrag(event) {
         dragControls.start(event, { snapToCursor: true })
     }
 
-    useLayoutEffect(() => {
-        //need to automatically calculate the computed width of the slider
-        //for max value of transform input
+    function maxSliderLimit(ref) {
+        //get the computed css width of the slider
+        ref = ref ?? constraintRef
         const { width } = getRefSize(constraintRef)
-        const maxWidth = width - handleSize
-        sliderWidth.current = maxWidth
+        return width - handleSize
+    }
 
-        const input = [0, maxWidth]
-        const output = [min, max]
-
-        cb(st => ({ ...st, [name ?? label]: min }))
+    useLayoutEffect(() => {
+        const sliderLimit = maxSliderLimit()
+        sliderWidth.current = sliderLimit
 
         const unsubscribe = x.onChange(latest => {
-            // console.log(name, "-->", latest, max)
-            const mapped = transform(latest, input, output)
-            const val = ~~mapped
-            value.set(val)
-            cb(st => ({ ...st, [name ?? label]: val }))
+            const mapped = transform(latest, [0, sliderLimit], [min, max])
+            const percent = transform(latest, [0, sliderLimit], [0, 100])
+            progressBar.set(percent)
+            value.set(~~mapped)
+
+            //setState should be called last so motionValues are refreshed
+            cb(st => ({ ...st, [name ?? label]: ~~mapped }))
         })
 
         return () => unsubscribe()
+    }, [])
+
+    useEffect(() => {
+        const sliderLimit = sliderWidth.current
+        const distance = transform(initialValue, [min, max], [0, sliderLimit])
+        x.set(distance)
     }, [])
 
     return (
@@ -46,19 +53,22 @@ export default function Control({ name, label, min = 0, max = 100, cb }) {
             <div className="value">{value.get()}</div>
             <div className="slider" ref={constraintRef} onPointerDown={startDrag}>
                 <div className="bar">
-                    <motion.div
+                    <div
                         className="progress"
-                        style={{ width: progress + "%", height: "100%" }}
+                        style={{
+                            width: progressBar.get() + "%",
+                            height: "100%"
+                        }}
                     />
                 </div>
                 <motion.div
                     className="handle"
-                    dragElastic={0}
                     dragConstraints={constraintRef}
                     style={{ x, width: handleSize, height: handleSize }}
                     dragControls={dragControls}
                     dragMomentum={false}
                     dragDirectionLock
+                    dragElastic={0}
                     drag="x"
                 />
             </div>

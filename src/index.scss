@@ -83,6 +83,13 @@ body {
                 height: 120%;
               }
             }
+
+            &.active{
+              @include border($clr-gray-4);
+              svg{ 
+                stroke: $clr-accent-blue-2; 
+              }
+            }
           }
         }
           

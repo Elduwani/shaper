@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, transform } from "framer-motion"
 import Previewer from "./Previewer";
 import ColorPicker from "./ColorPicker";
@@ -7,15 +7,18 @@ import Control from "./Control";
 import { CONSTANTS } from "../utils"
 
 const initialState = {
-    width: 100,
-    height: 100,
-    fill: '#06cdff',
-    stroke: "#8200ff",
-    rotate: 0,
-    offset: 0
+    width: 100, height: 100,
+    fill: '#06cdff', stroke: "#8200ff",
+    rotate: 0, offset: 0
 }
 
-export default function Rect({ id }) {
+export default function Rect({ id, savedState }) {
+
+    useEffect(() => {
+        // console.log(id)
+        // console.log(savedState)
+    }, [savedState]);
+
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const [openPalette, setOpenPalette] = useState(false)
@@ -35,7 +38,8 @@ export default function Rect({ id }) {
             id={id}
             reset={reset}
             state={state}
-            openPalette={setOpenPalette}
+            openPalette={openPalette}
+            setOpenPalette={setOpenPalette}
         >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
@@ -79,24 +83,28 @@ export default function Rect({ id }) {
             <div className="controls">
                 <Control
                     label="width"
-                    min={width}
+                    min={100}
                     max={180}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="height"
-                    min={width}
+                    min={100}
                     max={200}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="rotate"
                     max={360}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="offset"
                     max={10}
+                    state={savedState}
                     cb={setState}
                 />
             </div>

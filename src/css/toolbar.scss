@@ -5,6 +5,8 @@
     place-items: center;
     margin-top: $space-3;
     margin-bottom: $space-5;
+    position: relative;
+    padding: 0 $space-3;
     // @include border;
     
     .toolbar{
@@ -70,5 +72,23 @@
           stroke-linejoin: round;
         }
       } 
+    }
+
+    .save-button{
+      background-color: $clr-gray-2;
+      @include gridCenter;
+      @include radius;
+      cursor: pointer;
+      position: absolute;
+      right: $space-3;
+      height: 35px;
+      width: 35px;
+      top: 0;
+
+      svg{
+        width: 55%;
+        height: 55%;
+        stroke: $clr-gray-4;
+      }
     }
   }
