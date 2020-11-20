@@ -28,7 +28,6 @@ export default function Star({ id, savedState }) {
     return (
         <Previewer
             id={id}
-            reset={reset}
             state={state}
             setState={setState}
         >

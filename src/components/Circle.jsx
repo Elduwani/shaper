@@ -20,7 +20,6 @@ export default function Circle({ id, savedState }) {
 
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const reset = () => setState(initialState)
 
     const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
     let { viewboxWidth, viewboxHeight } = CONSTANTS,
@@ -47,7 +46,6 @@ export default function Circle({ id, savedState }) {
     return (
         <Previewer
             id={id}
-            reset={reset}
             state={state}
             setState={setState}
         >

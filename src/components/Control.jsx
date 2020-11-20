@@ -16,7 +16,7 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
     const progressBar = useMotionValue(0)
     const constraintRef = useRef(null)
     const sliderWidth = useRef(0)
-    const handleSize = 25
+    const handleSize = 28
 
     const dragControls = useDragControls()
 
@@ -52,14 +52,14 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
 
     useEffect(() => {
         /**
-         * If there is initial state from localStorage or slider gets reset due to 
-         * window resize, calculate new <x> position. Inside a new useEffect than 
-         * where <x> has an onChange handler other dependent motionValues or states
-         * will be updated again. 
+         * If there is initial state from localStorage, calculate new <x> position. 
+         * Inside a different useEffect than where <x> has an onChange handler, 
+         * other dependent motionValues or states will be updated again. 
         */
         const sliderLimit = sliderWidth.current
         const distance = transform(initialValue, [min, max], [0, sliderLimit])
-        x.set(distance)
+        //on mount initial distance will be zero so x will get reset on window resizes
+        if (distance > 0) x.set(distance)
     }, [])
 
     return (
@@ -80,7 +80,7 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
                     className="handle"
                     dragConstraints={constraintRef}
                     style={{ x, width: handleSize, height: handleSize }}
-                    // dragControls={dragControls}
+                    dragControls={dragControls}
                     dragMomentum={false}
                     dragDirectionLock
                     dragElastic={0}

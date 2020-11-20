@@ -26,7 +26,11 @@ export default function Line({ id, savedState }) {
         { colors } = COLORS;
 
     return (
-        <Previewer id={id} reset={reset} state={state}>
+        <Previewer
+            id={id}
+            state={state}
+            disablePalette={true}
+        >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
                     <g fill={fill}>

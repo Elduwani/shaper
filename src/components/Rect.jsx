@@ -17,7 +17,6 @@ export default function Rect({ id, savedState }) {
 
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const reset = () => setState(initialState)
 
     const { width, height, rotate, fill, stroke, offset } = state
     let { viewboxWidth, viewboxHeight } = CONSTANTS,
@@ -30,7 +29,6 @@ export default function Rect({ id, savedState }) {
     return (
         <Previewer
             id={id}
-            reset={reset}
             state={state}
             setState={setState}
         >

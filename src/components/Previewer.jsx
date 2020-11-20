@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion"
 import ColorPicker from "./ColorPicker";
 import { useDebounce } from "../utils";
 import {
-    FiRefreshCw as ResetIcon,
     FiMoon as PaletteIcon,
     FiTrash2 as DeleteIcon,
     FiMoreHorizontal as MenuIcon,
@@ -12,12 +11,11 @@ import {
 
 const iconVariants = {
     rest: { rotate: 0, scale: 1 },
-    hover: { rotate: 180, transition: { duration: 0.4 } },
+    hover: { rotate: 360, transition: { duration: 0.4 } },
     pressed: { scale: 0.9 }
 };
 
-export default function Previewer({ children, id, reset, state, setState, disablePalette }) {
-    const [key, setKey] = useState(0.5)
+export default function Previewer({ children, id, state, setState, disablePalette }) {
     const [menuOpen, setMenuOpen] = useState(false)
     const [openPalette, setOpenPalette] = useState(false)
     const [pkey, setPkey] = useState(0.2)
@@ -25,11 +23,6 @@ export default function Previewer({ children, id, reset, state, setState, disabl
 
     const toggleMenu = () => setMenuOpen(val => !val)
     const unmount = () => removeComponent(id) //delete
-
-    const remount = () => {
-        reset && reset()
-        setKey(k => k + 1)
-    }
 
     function shufflePalette() {
         if (!openPalette) setOpenPalette(true)
@@ -64,16 +57,6 @@ export default function Previewer({ children, id, reset, state, setState, disabl
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
                                 exit={{ opacity: 0 }}
                             >
-                                <div className="menu-item" onClick={remount}>
-                                    <motion.div
-                                        initial="rest"
-                                        variants={iconVariants}
-                                        whileHover="hover"
-                                        whileTap="pressed"
-                                    >
-                                        <ResetIcon />
-                                    </motion.div>
-                                </div>
                                 {
                                     disablePalette ? null :
                                         <div
@@ -83,6 +66,7 @@ export default function Previewer({ children, id, reset, state, setState, disabl
                                             <motion.div
                                                 initial="rest"
                                                 variants={iconVariants}
+                                                whileHover="hover"
                                                 whileTap="pressed"
                                             >
                                                 <PaletteIcon />
@@ -113,12 +97,8 @@ export default function Previewer({ children, id, reset, state, setState, disabl
                     : null
             }
 
-            <Container key={key}>{children}</Container>
+            { children}
 
         </motion.div>
     )
-}
-
-function Container({ children }) {
-    return <>{children}</>
 }
