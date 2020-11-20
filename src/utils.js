@@ -32,24 +32,49 @@ export const CONSTANTS = {
     viewboxHeight: 250,
 }
 
-export const COLORS = [
-    "#06cdff", "#8200ff", "#470c85", "#9ad3bc",
-    "#f3eac2", "#f5b461", "#ec524b", "#28abb9",
-    "#2d6187", "#effad3", "#a8dda8"
-]
+export const COLORS = {
+    colors: [
+        "#06cdff", "#8200ff", "#470c85", "#9ad3bc",
+        "#f3eac2", "#f5b461", "#ec524b", "#28abb9",
+        "#2d6187", "#effad3", "#a8dda8"
+    ],
+    palettes: [
+        ["blue", "cyan"], ["#fca3cc", "#bce6eb"],
+        ["#8200ff", "#06cdff"], ["#00bcd4", "#28df99"],
+        ["#ec5858", "#edf285"], ["#bbbbbb", "#f2dcbb"],
+        ["#f05454", "#e8e8e8"], ["#9088d4", "#ebcfc4"],
+        ["#adb36e", "#fad5ad"], ["#892cdc", "#bc6ff1"],
+        ["#8bcdcd", "#cee397"], ["#bedbbb", "#8db596"],
+        ["#7579e7", "#9ab3f5"], ["#a3d8f4", "#b9fffc"],
+        ["#726a95", "#709fb0"], ["#931a25", "#e97171"],
+        ["#ffcb8e", "#f5efef"], ["#d789d7", "#5d54a4"],
+        ["#28df99", "#d2f6c5"],
+    ],
+    randomPalette: function (count = 5) {
+        const visited = []
+        const palette = []
 
-export const PALETTES = [
-    ["blue", "cyan"], ["#fca3cc", "#bce6eb"],
-    ["#8200ff", "#06cdff"], ["#00bcd4", "#28df99"],
-    ["#ec5858", "#edf285"], ["#bbbbbb", "#f2dcbb"],
-    ["#f05454", "#e8e8e8"], ["#9088d4", "#ebcfc4"],
-    ["#adb36e", "#fad5ad"], ["#892cdc", "#bc6ff1"],
-    ["#8bcdcd", "#cee397"], ["#bedbbb", "#8db596"],
-    ["#7579e7", "#9ab3f5"], ["#a3d8f4", "#b9fffc"],
-    ["#726a95", "#709fb0"], ["#931a25", "#e97171"],
-    ["#ffcb8e", "#f5efef"], ["#d789d7", "#5d54a4"],
-    ["#28df99", "#d2f6c5"],
-]
+        for (let i = 0; i < count; i++) {
+            const randomIndex = this.randomIndex()
+            if (visited.includes(randomIndex)) {
+                i = i - 1
+                continue
+            }
+            visited.push(randomIndex)
+            palette.push(this.palettes[randomIndex])
+        }
+        return palette
+    },
+    shuffleColors: function (palette) {
+        const c1 = this.palettes[this.randomIndex()][this.randomIndex(palette.length)];
+        const c2 = this.palettes[this.randomIndex()][this.randomIndex(palette.length)];
+        return [c1, c2]
+    },
+    randomIndex: function (num) {
+        return Math.floor(Math.random() * (num ?? this.palettes.length))
+    }
+}
+
 
 /**
  * http://jsbin.com/quhujowota/1/edit?html,js,output

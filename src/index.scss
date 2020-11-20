@@ -24,13 +24,21 @@ body {
 }
     
 .App{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  main{
+    flex: 1;
+    // @include border;
+    
     &::after{
       content: "";
       display: table;
       width: 100%;
-      height: $space-8;
+      height: $space-10;
     }
-
+    
     .content-wrapper{
       display: grid;
       justify-content: center;
@@ -40,18 +48,18 @@ body {
       // @include border;
       
       @include md{
-        grid-template-columns: repeat(2, 350px);
+        grid-template-columns: repeat(2, $component-width);
       }
-
+  
       @include lg{
         gap: $space-5;
       }
-
+  
       @include xl{
-        grid-template-columns: repeat(3, 350px);
+        grid-template-columns: repeat(3, $component-width);
         gap: $space-6;
       }
-
+  
       .shape-wrapper{
         background-color: $clr-gray-2;
         position: relative;
@@ -61,56 +69,50 @@ body {
         .svg-container{
           overflow: hidden;
           position: relative;
-          // z-index: 90;
-
-          svg * { cursor: pointer; }
-          
-          .palette-wrapper{
-            $palette-height: 20px;
-            
-            width: 100%;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            
-            ul {
-              // width: 100%;
-              background-color: $clr-gray-3;
-              height: $palette-height;
-              display: flex;
-    
-              li {
-                flex: 1;
-                display: flex;
-                @include animation;
-                margin-right: 5px;
-                cursor: pointer;
-                // @include border();
-
-                &:last-child {
-                  margin: 0;
-                }
-
-                > div {
-                  flex: 1;
-                  height: $palette-height;
-                }
   
-                &:hover{
-                  flex: 1.5;
-                }
+          svg * { cursor: pointer; }        
+        }
+  
+        .palette-wrapper{
+          $palette-height: 20px;
+          overflow: hidden;
+          width: 100%;
+          
+          ul {
+            background-color: $clr-gray-3;
+            height: $palette-height;
+            display: flex;
+  
+            li {
+              flex: 1;
+              display: flex;
+              @include animation;
+              margin-right: 5px;
+              cursor: pointer;
+  
+              &:last-child {
+                margin: 0;
+              }
+  
+              > div {
+                flex: 1;
+                height: $palette-height;
+              }
+  
+              &:hover{
+                flex: 1.5;
               }
             }
-          }        
+          }
         }
-
+  
         .menu-wrapper{
           position: absolute;
           top: $space-1; 
           right: $space-1;
           z-index: 100;
           // background-color: red;
-
+  
           .menu-item{
             width: 40px;
             height: 40px;
@@ -130,23 +132,23 @@ body {
             svg{
               width: 55%;
               height: 55%;
-              stroke: $clr-gray-4;
+              stroke: $clr-gray-5;
             }
-
+  
             &.toggle{
               height: $space-3;
               @include gridCenter;
               background: $clr-gray-2;
               // @include border($clr-gray-3);
               margin-bottom: $space-2;
-
+  
               svg{
                 width: 120%;
                 height: 120%;
                 stroke: $clr-gray-5;
               }
             }
-
+  
             &.active{
               @include border($clr-gray-4);
               svg{ 
@@ -156,6 +158,16 @@ body {
           }
         }
       }
-
+  
     }
   }
+
+  .footer{
+    margin-top: auto;
+    padding: $space-2 0;
+    text-align: center;
+
+    p, span{color: $clr-gray-3}
+    span{text-decoration: underline}
+  }
+}

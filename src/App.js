@@ -2,18 +2,22 @@ import { StoreProvider } from './contexts/Store.context'
 import Home from "./pages/Home"
 import Toolbar from './components/Toolbar';
 
-function App() {
+export default function App() {
   // console.log("App rendering...")
+  document.title = "Shaperr"
 
   return (
-    <StoreProvider>
-      <div className="App">
-        <Toolbar />
-        <Home />
+    <div className="App">
+      <main>
+        <StoreProvider>
+          <Toolbar />
+          <Home />
+        </StoreProvider>
+      </main>
+      <div className="footer">
+        <p>Made with ❤ by <span>Elduwani</span></p>
       </div>
-    </StoreProvider>
+    </div>
   );
 
 }
-
-export default App;

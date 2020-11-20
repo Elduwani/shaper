@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { motion, transform } from "framer-motion"
 import Svg from "./SvgViewbox";
 import Previewer from "./Previewer";
-import ColorPicker from "./ColorPicker";
 import Control from "./Control";
 import { CONSTANTS } from "../utils"
 
@@ -18,8 +17,6 @@ export default function Rect({ id, savedState }) {
 
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const [openPalette, setOpenPalette] = useState(false)
-
     const reset = () => setState(initialState)
 
     const { width, height, rotate, fill, stroke, offset } = state
@@ -35,8 +32,7 @@ export default function Rect({ id, savedState }) {
             id={id}
             reset={reset}
             state={state}
-            openPalette={openPalette}
-            setOpenPalette={setOpenPalette}
+            setState={setState}
         >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
@@ -69,12 +65,6 @@ export default function Rect({ id, savedState }) {
                         drag
                     />
                 </Svg>
-
-                <ColorPicker
-                    setState={setState}
-                    isOpen={openPalette}
-                />
-
             </div>
 
             <div className="controls">

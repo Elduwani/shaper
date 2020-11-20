@@ -4,13 +4,11 @@ import Previewer from "./Previewer";
 import Svg from "./SvgViewbox";
 import Control from "./Control";
 import { CONSTANTS, drawArc, circleVectors } from "../utils"
-import ColorPicker from "./ColorPicker";
 
 
 export default function Circle({ id, savedState }) {
     const minRadius = 50
     const maxRadius = 100
-
     const initialState = {
         endAngle: 60,
         radius: minRadius,
@@ -22,7 +20,6 @@ export default function Circle({ id, savedState }) {
 
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const [openPalette, setOpenPalette] = useState(false)
     const reset = () => setState(initialState)
 
     const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
@@ -52,8 +49,7 @@ export default function Circle({ id, savedState }) {
             id={id}
             reset={reset}
             state={state}
-            openPalette={openPalette}
-            setOpenPalette={setOpenPalette}
+            setState={setState}
         >
             <div ref={containerRef} className="svg-container">
                 <Svg containerRef={containerRef}>
@@ -96,12 +92,6 @@ export default function Circle({ id, savedState }) {
                         drag
                     />
                 </Svg>
-
-                <ColorPicker
-                    setState={setState}
-                    isOpen={openPalette}
-                />
-
             </div>
 
             <div className="controls">

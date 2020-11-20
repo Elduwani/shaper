@@ -22,7 +22,8 @@ export default function Line({ id, savedState }) {
     const { copies, height, width, fill, rotate, spacing } = state
     let { viewboxWidth, viewboxHeight } = CONSTANTS,
         cx = (viewboxWidth / 2) - (width / 2),
-        cy = (viewboxHeight / 2) - (height / 2);
+        cy = (viewboxHeight / 2) - (height / 2),
+        { colors } = COLORS;
 
     return (
         <Previewer id={id} reset={reset} state={state}>
@@ -32,8 +33,8 @@ export default function Line({ id, savedState }) {
                         {
                             Array(copies).fill(true).map((_, i) => {
                                 const x = cx + (spacing * i) - (copies * spacing / 2)
-                                const randomIndex = Math.round(Math.random() * COLORS.length)
-                                const color = COLORS[i] ?? COLORS[randomIndex]
+                                const randomIndex = Math.round(Math.random() * colors.length)
+                                const color = colors[i] ?? colors[randomIndex]
 
                                 return (
                                     <motion.rect

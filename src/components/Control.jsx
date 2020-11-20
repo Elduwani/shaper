@@ -16,7 +16,7 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
     const progressBar = useMotionValue(0)
     const constraintRef = useRef(null)
     const sliderWidth = useRef(0)
-    const handleSize = 20
+    const handleSize = 25
 
     const dragControls = useDragControls()
 

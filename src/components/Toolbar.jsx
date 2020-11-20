@@ -25,7 +25,7 @@ export default function Toolbar() {
     }, []);
 
     return (
-        <section className="toolbar-wrapper">
+        <header className="toolbar-wrapper">
             <ul className="toolbar">
                 <li>
                     <div
@@ -62,6 +62,6 @@ export default function Toolbar() {
             <div className="save-button" onClick={save}>
                 <SaveIcon />
             </div>
-        </section>
+        </header>
     )
 }

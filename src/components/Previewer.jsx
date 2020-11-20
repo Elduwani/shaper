@@ -1,13 +1,14 @@
 import { useState, useContext, useEffect } from "react"
 import { StoreContext } from "../contexts/Store.context"
 import { AnimatePresence, motion } from "framer-motion"
+import ColorPicker from "./ColorPicker";
+import { useDebounce } from "../utils";
 import {
     FiRefreshCw as ResetIcon,
     FiMoon as PaletteIcon,
     FiTrash2 as DeleteIcon,
     FiMoreHorizontal as MenuIcon,
 } from "react-icons/fi"
-import { useDebounce } from "../utils";
 
 const iconVariants = {
     rest: { rotate: 0, scale: 1 },
@@ -15,22 +16,24 @@ const iconVariants = {
     pressed: { scale: 0.9 }
 };
 
-export default function Previewer({ children, reset, state, id, openPalette, setOpenPalette }) {
-    /**
-     * setOpenPalette() does not exist on all components
-     * must check first before executing
-    */
+export default function Previewer({ children, id, reset, state, setState, disablePalette }) {
     const [key, setKey] = useState(0.5)
     const [menuOpen, setMenuOpen] = useState(false)
+    const [openPalette, setOpenPalette] = useState(false)
+    const [pkey, setPkey] = useState(0.2)
     const { save, removeComponent } = useContext(StoreContext)
 
-    const toggleColors = () => setOpenPalette && setOpenPalette(bool => !bool)
     const toggleMenu = () => setMenuOpen(val => !val)
-    const unmount = () => removeComponent(id)
+    const unmount = () => removeComponent(id) //delete
 
     const remount = () => {
         reset && reset()
         setKey(k => k + 1)
+    }
+
+    function shufflePalette() {
+        if (!openPalette) setOpenPalette(true)
+        setPkey(k => k + 1)
     }
 
     useDebounce(() => {
@@ -39,7 +42,7 @@ export default function Previewer({ children, reset, state, id, openPalette, set
 
     useEffect(() => {
         //for a minimal UI close the color palette if the menu is not open
-        if (setOpenPalette && !menuOpen) setOpenPalette(false)
+        if (!menuOpen) setOpenPalette(false)
     }, [menuOpen]);
 
     return (
@@ -72,10 +75,10 @@ export default function Previewer({ children, reset, state, id, openPalette, set
                                     </motion.div>
                                 </div>
                                 {
-                                    setOpenPalette ?
+                                    disablePalette ? null :
                                         <div
                                             className={`menu-item ${openPalette ? "active" : ""}`}
-                                            onClick={toggleColors}
+                                            onClick={shufflePalette}
                                         >
                                             <motion.div
                                                 initial="rest"
@@ -85,7 +88,6 @@ export default function Previewer({ children, reset, state, id, openPalette, set
                                                 <PaletteIcon />
                                             </motion.div>
                                         </div>
-                                        : null
                                 }
                                 <div className="menu-item" onClick={unmount}>
                                     <motion.div
@@ -101,6 +103,15 @@ export default function Previewer({ children, reset, state, id, openPalette, set
                     }
                 </AnimatePresence>
             </div>
+
+            {
+                openPalette ?
+                    <ColorPicker
+                        shuffleKey={pkey}
+                        setState={setState}
+                    />
+                    : null
+            }
 
             <Container key={key}>{children}</Container>
 
