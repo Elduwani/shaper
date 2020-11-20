@@ -1,4 +1,4 @@
-import { createContext, useState, useRef, useEffect } from "react"
+import { createContext, useState, useRef, useEffect, useLayoutEffect } from "react"
 import Rect from '../components/Rect'
 import Circle from '../components/Circle'
 import Line from '../components/Line'
@@ -9,7 +9,7 @@ export const StoreContext = createContext()
 
 export function StoreProvider(props) {
     const [components, setComponents] = useState([])
-    const tracker = useRef()
+    const stateTracker = useRef()
 
     function create(name) {
         const id = uuid()
@@ -17,16 +17,17 @@ export function StoreProvider(props) {
     }
 
     function updateTracker(state, id) {
-        if (tracker.current) {
-            tracker.current.forEach(el => {
+        if (stateTracker.current) {
+            stateTracker.current.forEach(el => {
                 if (el.id === id) el.savedState = state
             })
+            // console.log("tracker updated")
         }
     }
 
-    function saveLocal() {
-        localStorage.setItem("components", JSON.stringify(tracker.current))
-        console.log("saved!...")
+    function save(state, id) {
+        if (state && id) updateTracker(state, id)
+        localStorage.setItem("components", JSON.stringify(stateTracker.current))
     }
 
     function removeComponent(id) {
@@ -34,13 +35,12 @@ export function StoreProvider(props) {
         setComponents(filtered)
     }
 
-    useEffect(() => {
-        const d = components.map(({ props }) => ({ name: props.name, id: props.id }))
-        tracker.current = d
-    }, [components]);
-
-    useEffect(() => {
-        // localStorage.clear()
+    useLayoutEffect(() => {
+        /**
+         * On componentMount load data from localStorage if exists
+         * or render default component
+         * localStorage.clear()
+        */
         const id = uuid()
         const defaultComponent = [<Rect id={id} key={id} name="rect" />]
         const parsed = JSON.parse(localStorage.getItem("components"))
@@ -52,8 +52,23 @@ export function StoreProvider(props) {
 
     }, []);
 
+    useEffect(() => {
+        if (components.length) {
+            const newState = components.map(({ props }) => {
+                const { id, name, savedState } = props
+                return { id, name, savedState }
+            })
+            //tracker must be updated before calling save()
+            stateTracker.current = newState
+            //on initial mount don't save because state will be empty
+            //con of this is there'll always be one component state even if all are deleted
+            save()
+        }
+    }, [components]);
+
+
     return (
-        <StoreContext.Provider value={{ components, updateTracker, saveLocal, create, removeComponent }}>
+        <StoreContext.Provider value={{ components, updateTracker, save, create, removeComponent }}>
             {props.children}
         </StoreContext.Provider>
     )
@@ -62,15 +77,17 @@ export function StoreProvider(props) {
 function addComponent(name, id, state) {
     id = id ?? uuid()
     switch (name) {
+        // All components require {key, id, savedState, name} 
         case "rect":
-            return <Rect key={id} id={id} savedState={state} name="rect" />
+            return <Rect key={id} id={id} savedState={state} name={name} />
         case "circle":
-            return <Circle key={id} id={id} savedState={state} name="circle" />
+            return <Circle key={id} id={id} savedState={state} name={name} />
         case "lines":
-            return <Line key={id} id={id} savedState={state} name="line" />
+            return <Line key={id} id={id} savedState={state} name={name} />
         case "star":
-            return <Star key={id} id={id} savedState={state} name="star" />
+            return <Star key={id} id={id} savedState={state} name={name} />
         default:
-            return null
+            // Please don't return null by default
+            return <Rect key={id} id={id} savedState={state} name={name} />
     }
 }

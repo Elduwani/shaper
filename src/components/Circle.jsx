@@ -6,27 +6,29 @@ import Control from "./Control";
 import { CONSTANTS, drawArc, circleVectors } from "../utils"
 import ColorPicker from "./ColorPicker";
 
-const minRadius = 50
-const maxRadius = 100
-const initialState = {
-    radius: minRadius,
-    endAngle: 60,
-    fill: "blue",
-    stroke: "cyan",
-    strokeWidth: 6,
-    offset: 0,
-}
 
-export default function Circle({ id }) {
+export default function Circle({ id, savedState }) {
+    const minRadius = 50
+    const maxRadius = 100
+
+    const initialState = {
+        endAngle: 60,
+        radius: minRadius,
+        fill: savedState ? savedState.fill : "blue",
+        stroke: savedState ? savedState.stroke : "cyan",
+        strokeWidth: 6,
+        offset: 0,
+    }
+
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const [openPalette, setOpenPalette] = useState(false)
     const reset = () => setState(initialState)
 
     const { radius, endAngle, stroke, strokeWidth, fill, offset } = state
-    let { containerWidth, containerHeight } = CONSTANTS,
-        centerX = containerWidth / 2,
-        centerY = containerHeight / 2;
+    let { viewboxWidth, viewboxHeight } = CONSTANTS,
+        centerX = viewboxWidth / 2,
+        centerY = viewboxHeight / 2;
     //shrink outlined circle between x% - 100% based on reversed offset
     const scale = transform(offset, [0, 10], [1, 0.6])
 
@@ -106,8 +108,9 @@ export default function Circle({ id }) {
                 <Control
                     name="radius"
                     label="scale"
-                    min={radius}
+                    min={minRadius}
                     max={maxRadius}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -115,6 +118,7 @@ export default function Circle({ id }) {
                     label="angle"
                     min={endAngle}
                     max={359}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -122,11 +126,13 @@ export default function Circle({ id }) {
                     label="stroke"
                     min={strokeWidth}
                     max={20}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="offset"
                     max={10}
+                    state={savedState}
                     cb={setState}
                 />
             </div>

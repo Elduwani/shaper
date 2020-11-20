@@ -28,8 +28,8 @@ export function useDebounce(callback, delay, state) {
 }
 
 export const CONSTANTS = {
-    containerWidth: 350,
-    containerHeight: 250,
+    viewboxWidth: 350,
+    viewboxHeight: 250,
 }
 
 export const COLORS = [

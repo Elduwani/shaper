@@ -1,4 +1,5 @@
 $height: 40px;
+$component-width: 320px;
 // Units based on 8 point scale (:root is 16px default font-size)
 $space-1: 0.5rem; // 8 px
 $space-2: 1.0rem; // 16 px
@@ -94,4 +95,37 @@ $clr-gray-5: #D3D3D4;
     }
     scrollbar-width: thin;
     // scrollbar-color: $clr-gray-4 $clr-gray-5;
+}
+
+
+// Media Queries...
+$screen-sm-min: 576px; // Small tablets and large smartphones (landscape view)
+$screen-md-min: 768px; // Small tablets (portrait view)
+$screen-lg-min: 992px; // Tablets and small desktops
+$screen-xl-min: 1200px; // Large tablets and desktops
+
+@mixin sm { // Small devices
+    @media only screen and (min-width: #{$screen-sm-min}) {
+        @content;
+    }
+}
+@mixin md { // Medium devices
+    @media only screen and (min-width: #{$screen-md-min}) {
+      @content;
+    }
+}
+@mixin lg { // Large devices
+    @media (min-width: #{$screen-lg-min}) {
+        @content;
+    }
+}
+@mixin xl { // Extra large devices
+    @media (min-width: #{$screen-xl-min}) {
+        @content;
+    }
+}
+@mixin xxl($screen) { // Custom devices
+    @media (min-width: $screen+'px') {
+        @content;
+    }
 }

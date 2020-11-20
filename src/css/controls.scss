@@ -4,22 +4,20 @@
     
 }
 .controls{
-    padding: $space-2;
-
+    padding: $space-2 $space-3;
+    
     .control-wrapper{
         display: grid;
         margin: $space-1 0;
-        grid-template-columns: 50px 45px 1fr;
+        grid-template-columns: 45px 45px 1fr;
         gap: $space-2;
     
         > div {
             height: $height;
-            // border: 1px solid red;
             color: $clr-gray-5;
+            // @include border(red);
     
-            * {
-                color: white;
-            }
+            * { color: $clr-gray-5 }
         }
     
         .label{
@@ -34,39 +32,8 @@
             overflow: hidden;
             border-radius: 8px;
             place-items: center;
-            background-color: $clr-gray-3;
-            // border: 1px solid $clr-gray-3;
-    
-            /* 
-            input{
-                height: 100%;
-                width: 60%;
-                background: transparent;
-                border: none;
-                outline: none;
-                color: white
-            }
-            .arrows{
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                // border: 1px solid green;
-                
-                > div{
-                    flex: 1;
-                    display: grid;
-                    place-items: center;
-                    cursor: pointer;
-                    
-                    &:hover{
-                        background: blue;
-                    }
-                }
-                svg{
-                    stroke: $clr-gray-4;
-                }
-            }
-            */
+            // background-color: $clr-gray-3;
+            border: 1px solid $clr-gray-3;
         }
     
         .slider{
@@ -84,7 +51,7 @@
                 overflow: hidden;
                 
                 .progress{
-                    background-color: $clr-gray-5;
+                    // background-color: $clr-gray-4;
                 }
             }
             .handle{
@@ -92,10 +59,11 @@
                 width: 20px;
                 height: 20px;
                 position: absolute;
-                background-color: $clr-gray-5;
+                background-color: $clr-gray-3;
+                border: 2px solid $clr-gray-4;
                 border-radius: 50%;
                 cursor: pointer;
-                border: none;
+                // border: none;
             }
         }
     }

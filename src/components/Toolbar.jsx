@@ -6,10 +6,10 @@ import { FiUpload as SaveIcon } from "react-icons/fi";
 import "../css/toolbar.scss"
 
 export default function Toolbar() {
-    const { create, saveLocal } = useContext(StoreContext)
 
     const ref = useRef()
     const [iconSize, setIconSize] = useState(40)
+    const { create, save } = useContext(StoreContext)
 
     const points = Array(3).fill(true).map((_, i) => {
         //Generate points to draw a triangle => "0, 50 30, 0 50, 50"
@@ -59,7 +59,7 @@ export default function Toolbar() {
                 </li>
             </ul>
 
-            <div className="save-button" onClick={saveLocal}>
+            <div className="save-button" onClick={save}>
                 <SaveIcon />
             </div>
         </section>

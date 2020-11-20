@@ -22,7 +22,7 @@ export default function Previewer({ children, reset, state, id, openPalette, set
     */
     const [key, setKey] = useState(0.5)
     const [menuOpen, setMenuOpen] = useState(false)
-    const { updateTracker, removeComponent } = useContext(StoreContext)
+    const { save, removeComponent } = useContext(StoreContext)
 
     const toggleColors = () => setOpenPalette && setOpenPalette(bool => !bool)
     const toggleMenu = () => setMenuOpen(val => !val)
@@ -34,8 +34,7 @@ export default function Previewer({ children, reset, state, id, openPalette, set
     }
 
     useDebounce(() => {
-        updateTracker(state, id)
-        console.log("saved")
+        save(state, id)
     }, 3000, state);
 
     useEffect(() => {

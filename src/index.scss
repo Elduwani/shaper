@@ -34,64 +34,29 @@ body {
     .content-wrapper{
       display: grid;
       justify-content: center;
-      grid-template-columns: repeat(2, 350px);
-      gap: $space-6;
+      grid-template-columns: $component-width;
+      padding: 0 $space-1;
+      gap: $space-4;
+      // @include border;
+      
+      @include md{
+        grid-template-columns: repeat(2, 350px);
+      }
+
+      @include lg{
+        gap: $space-5;
+      }
+
+      @include xl{
+        grid-template-columns: repeat(3, 350px);
+        gap: $space-6;
+      }
 
       .shape-wrapper{
         background-color: $clr-gray-2;
+        position: relative;
         @include radius();
         overflow: hidden;
-        position: relative;
-
-        .menu-wrapper{
-          position: absolute;
-          top: $space-1; 
-          right: $space-1;
-          z-index: 100;
-          // background-color: red;
-
-          .menu-item{
-            width: 40px;
-            height: 40px;
-            @include radius;
-            cursor: pointer;
-            overflow: hidden;
-            background-color: $clr-gray-3;
-            margin-bottom: $space-1;
-            
-            > div {
-              display: grid;
-              place-items: center;
-              width: 100%;
-              height: 100%;
-            }
-            
-            svg{
-              width: 55%;
-              height: 55%;
-              stroke: $clr-gray-4;
-            }
-
-            &.toggle{
-              // background: transparent;
-              height: $space-3;
-              @include gridCenter;
-              margin-bottom: $space-2;
-
-              svg{
-                width: 120%;
-                height: 120%;
-              }
-            }
-
-            &.active{
-              @include border($clr-gray-4);
-              svg{ 
-                stroke: $clr-accent-blue-2; 
-              }
-            }
-          }
-        }
           
         .svg-container{
           overflow: hidden;
@@ -137,6 +102,58 @@ body {
               }
             }
           }        
+        }
+
+        .menu-wrapper{
+          position: absolute;
+          top: $space-1; 
+          right: $space-1;
+          z-index: 100;
+          // background-color: red;
+
+          .menu-item{
+            width: 40px;
+            height: 40px;
+            @include radius;
+            cursor: pointer;
+            overflow: hidden;
+            background-color: $clr-gray-3;
+            margin-bottom: $space-1;
+            
+            > div {
+              display: grid;
+              place-items: center;
+              width: 100%;
+              height: 100%;
+            }
+            
+            svg{
+              width: 55%;
+              height: 55%;
+              stroke: $clr-gray-4;
+            }
+
+            &.toggle{
+              height: $space-3;
+              @include gridCenter;
+              background: $clr-gray-2;
+              // @include border($clr-gray-3);
+              margin-bottom: $space-2;
+
+              svg{
+                width: 120%;
+                height: 120%;
+                stroke: $clr-gray-5;
+              }
+            }
+
+            &.active{
+              @include border($clr-gray-4);
+              svg{ 
+                stroke: $clr-accent-blue-2; 
+              }
+            }
+          }
         }
       }
 

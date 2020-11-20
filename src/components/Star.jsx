@@ -6,26 +6,24 @@ import Control from "./Control";
 import { CONSTANTS, generateStar } from "../utils"
 import ColorPicker from "./ColorPicker";
 
-const initialState = {
-    size: 80,
-    sides: 3,
-    fill: "#28df99",
-    stroke: "#00bcd4",
-    strokeWidth: 2,
-    rotate: 0,
-    offset: 0,
-}
 
-export default function Star({ id }) {
+export default function Star({ id, savedState }) {
+    const initialState = {
+        size: 80, sides: 3,
+        fill: savedState ? savedState.fill : "#28df99",
+        stroke: savedState ? savedState.stroke : "#00bcd4",
+        strokeWidth: 2, rotate: 0, offset: 0,
+    }
+
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const [openPalette, setOpenPalette] = useState(false)
     const reset = () => setState(initialState)
 
     const { size, sides, stroke, strokeWidth, rotate, fill, offset } = state
-    const { containerWidth, containerHeight } = CONSTANTS
-    const cx = containerWidth / 2
-    const cy = containerHeight / 2
+    const { viewboxWidth, viewboxHeight } = CONSTANTS
+    const cx = viewboxWidth / 2
+    const cy = viewboxHeight / 2
 
     const scale = transform(offset, [0, 10], [1, 0.6])
 
@@ -75,6 +73,7 @@ export default function Star({ id }) {
                     label="size"
                     min={size}
                     max={250}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -82,16 +81,19 @@ export default function Star({ id }) {
                     label="points"
                     min={sides}
                     max={6}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="rotate"
                     max={360}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
                     label="offset"
                     max={10}
+                    state={savedState}
                     cb={setState}
                 />
             </div>

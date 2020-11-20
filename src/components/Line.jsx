@@ -14,15 +14,15 @@ const initialState = {
     rotate: 15,
 }
 
-export default function Line({ id }) {
+export default function Line({ id, savedState }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
     const reset = () => setState(initialState)
 
     const { copies, height, width, fill, rotate, spacing } = state
-    let { containerWidth, containerHeight } = CONSTANTS,
-        cx = (containerWidth / 2) - (width / 2),
-        cy = (containerHeight / 2) - (height / 2);
+    let { viewboxWidth, viewboxHeight } = CONSTANTS,
+        cx = (viewboxWidth / 2) - (width / 2),
+        cy = (viewboxHeight / 2) - (height / 2);
 
     return (
         <Previewer id={id} reset={reset} state={state}>
@@ -57,6 +57,7 @@ export default function Line({ id }) {
                     label="count"
                     min={copies}
                     max={10}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -64,6 +65,7 @@ export default function Line({ id }) {
                     label="length"
                     min={height}
                     max={450}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -71,6 +73,7 @@ export default function Line({ id }) {
                     label="spread"
                     min={spacing}
                     max={40}
+                    state={savedState}
                     cb={setState}
                 />
                 <Control
@@ -78,6 +81,7 @@ export default function Line({ id }) {
                     label="skew"
                     min={15}
                     max={30}
+                    state={savedState}
                     cb={setState}
                 />
             </div>
