@@ -17,7 +17,6 @@ const initialState = {
 export default function Line({ id, savedState }) {
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const reset = () => setState(initialState)
 
     const { copies, height, width, fill, rotate, spacing } = state
     let { viewboxWidth, viewboxHeight } = CONSTANTS,

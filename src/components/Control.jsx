@@ -66,7 +66,7 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
         <div className="control-wrapper">
             <div className="label">{label ?? name}</div>
             <div className="value">{value.get()}</div>
-            <div className="slider" ref={constraintRef} onPointerDown={startDrag}>
+            <div className="slider" ref={constraintRef}>
                 <div className="bar">
                     <div
                         className="progress"
@@ -80,7 +80,7 @@ export default function Control({ name, label, min = 0, max = 10, cb, state }) {
                     className="handle"
                     dragConstraints={constraintRef}
                     style={{ x, width: handleSize, height: handleSize }}
-                    dragControls={dragControls}
+                    // dragControls={dragControls}
                     dragMomentum={false}
                     dragDirectionLock
                     dragElastic={0}

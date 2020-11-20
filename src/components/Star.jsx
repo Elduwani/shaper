@@ -16,7 +16,6 @@ export default function Star({ id, savedState }) {
 
     const containerRef = useRef()
     const [state, setState] = useState(initialState)
-    const reset = () => setState(initialState)
 
     const { size, sides, stroke, strokeWidth, rotate, fill, offset } = state
     const { viewboxWidth, viewboxHeight } = CONSTANTS
