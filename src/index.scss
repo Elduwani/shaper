@@ -168,6 +168,12 @@ body {
     text-align: center;
 
     p, span{color: $clr-gray-3}
+    svg{
+      margin: 0 2px;
+      margin-bottom: -2px;
+      fill: $clr-gray-3;
+      stroke: none;
+    }
     // span{text-decoration: underline}
   }
 }

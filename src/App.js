@@ -1,6 +1,8 @@
 import { StoreProvider } from './contexts/Store.context'
-import Home from "./pages/Home"
 import Toolbar from './components/Toolbar';
+import Home from "./pages/Home"
+import { FiHeart } from 'react-icons/fi';
+
 
 export default function App() {
   // console.log("App rendering...")
@@ -15,7 +17,7 @@ export default function App() {
         </StoreProvider>
       </main>
       <div className="footer">
-        <p>Made with ❤ by <span>Elduwani</span></p>
+        <p>Made with <FiHeart /> by <span>Elduwani</span></p>
       </div>
     </div>
   );
