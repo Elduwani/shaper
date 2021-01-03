@@ -166,8 +166,8 @@ export function generateStar(s, sides = 3, cx = 0, cy = 0) {
 export function getRefSize(ref) {
     if (ref) {
         const compStyles = window.getComputedStyle(ref.current);
-        const width = Number(compStyles.getPropertyValue('width').replace(/[^\d]/g, ''))
-        const height = Number(compStyles.getPropertyValue('height').replace(/[^\d]/g, ''))
+        const width = Number(compStyles.getPropertyValue('width').replace(/[^\d.]/g, ''))
+        const height = Number(compStyles.getPropertyValue('height').replace(/[^\d.]/g, ''))
         return { width, height }
     }
 
